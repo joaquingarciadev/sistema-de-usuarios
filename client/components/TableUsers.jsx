@@ -23,7 +23,10 @@ function TableUsers() {
         } else {
             setResultUsers(
                 users.filter(({ username }) =>
-                    username.toLowerCase().includes(searchData.toLowerCase())
+                    username
+                        .toLowerCase()
+                        .replace(/ /g, "")
+                        .includes(searchData.toLowerCase().replace(/ /g, ""))
                 )
             );
         }
@@ -100,6 +103,11 @@ function TableUsers() {
             {showFormUser && (
                 <>
                     <h3>Edit user</h3>
+                    {errorMessage && (
+                        <div className="alert alert-danger" role="alert">
+                            {errorMessage}
+                        </div>
+                    )}
                     <form onSubmit={handleUpdateUser} className="input-group mb-3">
                         <input
                             type="text"
@@ -123,7 +131,7 @@ function TableUsers() {
                             }
                             className="form-select"
                         >
-                            <option value={null}>Role</option>
+                            <option value="">Role</option>
                             <option value="ADMIN">ADMIN</option>
                             <option value="USER">USER</option>
                         </select>
@@ -137,7 +145,7 @@ function TableUsers() {
                             }
                             className="form-select"
                         >
-                            <option value={null}>Status</option>
+                            <option value="">Status</option>
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="INACTIVE">INACTIVE</option>
                         </select>
@@ -145,11 +153,6 @@ function TableUsers() {
                             Submit
                         </button>
                     </form>
-                    {errorMessage && (
-                        <div className="alert alert-danger" role="alert">
-                            {errorMessage}
-                        </div>
-                    )}
                 </>
             )}
 
@@ -175,7 +178,7 @@ function TableUsers() {
                                         src={process.env.NEXT_PUBLIC_URL_API + user.image}
                                         alt={user.username}
                                         className="rounded-circle"
-                                        style={{objectFit: "cover"}}
+                                        style={{ objectFit: "cover" }}
                                         width="40"
                                         height="40"
                                     />
@@ -184,7 +187,7 @@ function TableUsers() {
                                         src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                                         alt={user.username}
                                         className="rounded-circle"
-                                        style={{objectFit: "cover"}}
+                                        style={{ objectFit: "cover" }}
                                         width="40"
                                         height="40"
                                     />
@@ -210,7 +213,16 @@ function TableUsers() {
                         </tr>
                         {users &&
                             resultUsers.map(
-                                ({ _id, image, username, email, role, status, createdAt, updatedAt }) => {
+                                ({
+                                    _id,
+                                    image,
+                                    username,
+                                    email,
+                                    role,
+                                    status,
+                                    createdAt,
+                                    updatedAt,
+                                }) => {
                                     if (username !== user.username) {
                                         return (
                                             <tr key={_id}>
@@ -277,4 +289,5 @@ function TableUsers() {
         </>
     );
 }
+
 export default TableUsers;

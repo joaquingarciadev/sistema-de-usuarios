@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Link from "next/link";
 
-function NavbarComponente() {
+function Navbar() {
     const { user } = useContext(AppContext);
     const [show, setShow] = useState(false);
 
@@ -35,7 +35,7 @@ function NavbarComponente() {
                                     src={process.env.NEXT_PUBLIC_URL_API + user.image}
                                     alt={user.username}
                                     className="rounded-circle"
-                                    style={{objectFit: "cover"}}
+                                    style={{ objectFit: "cover" }}
                                     width="40"
                                     height="40"
                                 />
@@ -44,7 +44,7 @@ function NavbarComponente() {
                                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                                     alt={user.username}
                                     className="rounded-circle"
-                                    style={{objectFit: "cover"}}
+                                    style={{ objectFit: "cover" }}
                                     width="40"
                                     height="40"
                                 />
@@ -90,4 +90,4 @@ function NavbarComponente() {
     );
 }
 
-export default NavbarComponente;
+export default Navbar;

@@ -21,12 +21,14 @@ const updateAccount = async (req, res, next) => {
     const image = "/" + req.file.path.replace(/\\/g, "/");
 
     // Delete old image
-    if (req.user.image) {
+    if (req.user.image && req.user.image !== image) {
         fs.unlinkSync("." + req.user.image);
     }
 
-    if (req.user.username === "admin")
+    if (req.user.username === "admin") {
+        fs.unlinkSync("." + image);
         return res.status(400).json({ error: "Admin user can't be updated" });
+    }
 
     try {
         if (password) {

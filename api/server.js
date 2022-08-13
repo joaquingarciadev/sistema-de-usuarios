@@ -22,6 +22,21 @@ app.use("/api", require("./routes/auth.route"));
 app.use("/api", require("./routes/user.route"));
 app.use("/api", require("./routes/admin.route"));
 
+// OAuth authentication routes
+app.get(
+    "/auth/google",
+    passport.authenticate("google", {
+        scope: [
+            "profile",
+            "email",
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/spreadsheets.readonly",
+        ],
+        accessType: "offline",
+        prompt: "consent",
+    })
+);
+
 // Images path
 app.use("/uploads", express.static("./uploads"));
 
@@ -40,5 +55,7 @@ app.get("/", (req, res) => {
 app.use(require("./middlewares/error.middleware"));
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}, url: ${process.env.URL}:${process.env.PORT}`);
+    console.log(
+        `Server running on port ${process.env.PORT}, url: ${process.env.URL}:${process.env.PORT}`
+    );
 });

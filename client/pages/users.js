@@ -4,7 +4,7 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import TableUsers from "../components/TableUsers";
 
-export default function Home() {
+export default function Users() {
     const { user, loading } = useContext(AppContext);
 
     return (

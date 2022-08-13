@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-function page404() {
+export default function page404() {
 
     return (
         <>
@@ -12,4 +12,3 @@ function page404() {
         </>
     );
 }
-export default page404;

@@ -15,15 +15,22 @@ const getUser = async (req, res, next) => {
 };
 
 const updateUser = async (req, res, next) => {
-    const { username, email, password, status, role, image } = req.body;
+    const { username, email, password, role, status, image } = req.body;
     let passwordHash;
 
-    // Verify that they do not change the role of the "admin"
+    // Verify that they do not change the admin user
     const user = await User.findById(req.params.id);
-    if (user.username === "admin" && role !== "ADMIN")
+    if (user.username === "admin")
         return res.status(400).json({ error: "Admin user can't be updated" });
 
-    if (!username || !email || !password)
+    if (
+        username === "" ||
+        email === "" ||
+        password === "" ||
+        role === "" ||
+        status === "" ||
+        image === ""
+    )
         return res.status(401).json({ error: "Complete all fields" });
 
     if (await User.findOne({ username }))
@@ -65,14 +72,15 @@ const updateUser = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
-    const user = await User.findByIdAndDelete(req.params.id);
-
+    const user = await User.findById(req.params.id);
     if (user.username === "admin")
         return res.status(400).json({ error: "Admin user can't be deleted" });
 
-    if (!user) return res.status(404).json({ error: "User not found" });
-
     try {
+        const user = await User.findByIdAndDelete(req.params.id);
+
+        if (!user) return res.status(404).json({ error: "User not found" });
+
         res.json({
             user: user.hiddenFields(),
         });

@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
-import TableUsers from "../components/TableUsers";
 
 export default function Home() {
     const { user, loading } = useContext(AppContext);

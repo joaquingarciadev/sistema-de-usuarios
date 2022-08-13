@@ -3,7 +3,7 @@ import AppContext from "../contexts/AppContext";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 
-export default function Home() {
+export default function Settings() {
     const { user, loading } = useContext(AppContext);
     const [formData, setFormData] = useState({});
     const [errorUpdate, setErrorUpdate] = useState("");
@@ -68,41 +68,60 @@ export default function Home() {
                                     {errorUpdate}
                                 </div>
                             )}
-                            <form onSubmit={handleUpdateUser}>
-                                <div className="mb-2">
-                                    {user.image ? (
-                                        <img
-                                            src={process.env.NEXT_PUBLIC_URL_API + user.image}
-                                            alt={user.username}
-                                            className="rounded-circle"
-                                            style={{ objectFit: "cover" }}
-                                            width="200"
-                                            height="200"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                            alt={user.username}
-                                            className="rounded-circle"
-                                            style={{ objectFit: "cover" }}
-                                            width="200"
-                                            height="200"
-                                        />
-                                    )}
+                            <form onSubmit={handleUpdateUser} className="mb-2">
+                                <div className="col-md-4 offset-md-4">
+                                    <div className="d-flex justify-content-center mb-2">
+                                        {user.image ? (
+                                            <img
+                                                src={
+                                                    formData.image
+                                                        ? URL.createObjectURL(formData.image)
+                                                        : process.env.NEXT_PUBLIC_URL_API +
+                                                          user.image
+                                                }
+                                                alt={user.username}
+                                                className="rounded-circle"
+                                                style={{ objectFit: "cover" }}
+                                                width="200"
+                                                height="200"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={
+                                                    formData.image
+                                                        ? URL.createObjectURL(formData.image)
+                                                        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                                }
+                                                alt={user.username}
+                                                className="rounded-circle"
+                                                style={{ objectFit: "cover" }}
+                                                width="200"
+                                                height="200"
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="mb-2">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary w-100 position-relative"
+                                        >
+                                            <input
+                                                type="file"
+                                                name="image"
+                                                placeholder="Image"
+                                                onChange={(e) =>
+                                                    setFormData({
+                                                        ...formData,
+                                                        image: e.target.files[0],
+                                                    })
+                                                }
+                                                className="form-control position-absolute fixed-top opacity-0"
+                                                accept="image/png, image/jpeg"
+                                            />
+                                            Change image
+                                        </button>
+                                    </div>
                                 </div>
-                                <input
-                                    type="file"
-                                    name="image"
-                                    placeholder="Image"
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            image: e.target.files[0],
-                                        })
-                                    }
-                                    className="form-control mb-2"
-                                    accept="image/png, image/jpeg"
-                                />
                                 <input
                                     type="text"
                                     name="username"
