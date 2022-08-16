@@ -1,4 +1,46 @@
-$primary: #4f46e5;
+@import "bootstrap/scss/functions";
+// Default variable overrides
+// $body-bg: #000;
+// $body-color: #fff;
+
+$primary: #4f46e5; // Your primary color
+$input-transition: all 0s ease;
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark,
+  "red":    $red-500,
+  "blue":   $blue-500,
+);    
 
 @import '~bootstrap/scss/bootstrap.scss';
-  
+
+td {
+    vertical-align: middle !important;
+}
+
+.btn {
+    border-width: 2px;
+    font-weight: 500;
+}
+
+.form-control, .form-select, .btn:hover, .btn:focus {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border: 1px solid #000 !important;
+  outline: 1px solid #000 !important;
+}

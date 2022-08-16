@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/style.scss";
 
 function MyApp({ Component, pageProps }) {
@@ -21,7 +22,6 @@ function MyApp({ Component, pageProps }) {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
-
             if (res.status === 200) {
                 const data = await res.json();
                 setUser(data.user);
@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }) {
             }
             setLoading(false);
         };
+
         if (localStorage.getItem("token")) getUser();
     }, []);
 

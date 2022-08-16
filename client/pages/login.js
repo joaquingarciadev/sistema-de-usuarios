@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Link from "next/link";
 import Head from "next/head";
@@ -8,6 +8,31 @@ export default function Login() {
     const { user } = useContext(AppContext);
     const [formData, setFormData] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        const oauth = async () => {
+            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/auth/success", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true,
+                },
+            });
+            if (res.status !== 500) {
+                const data = await res.json();
+                if (data.error) {
+                    setErrorMessage(data.error);
+                } else {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("refreshToken", data.refreshToken);
+                    window.location.href = "/";
+                }
+            }
+        };
+        if (!localStorage.getItem("token")) oauth();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +54,16 @@ export default function Login() {
         }
     };
 
+    const google = (e) => {
+        e.preventDefault();
+        window.open(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/google`, "_self");
+    };
+
+    const facebook = (e) => {
+        e.preventDefault();
+        window.open(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/facebook`, "_self");
+    };
+
     return (
         <>
             <Head>
@@ -43,6 +78,11 @@ export default function Login() {
                 ) : (
                     <div className="col-md-4 offset-md-4 px-3 mt-5">
                         <h1>Login</h1>
+                        {errorMessage && (
+                            <div className="alert alert-danger" role="alert">
+                                {errorMessage}
+                            </div>
+                        )}
                         <form onSubmit={handleSubmit} className="d-grid gap-3">
                             <input
                                 type="text"
@@ -77,15 +117,12 @@ export default function Login() {
                                 Login
                             </button>
                             <hr />
-                            {/* GOOGLE BUTTON */}
-                            <button className="btn btn-danger">
-                                Login with Google
+                            <button className="btn btn-red" onClick={google}>
+                                <i class="bi bi-google"></i> Login with Google
                             </button>
-                            {errorMessage && (
-                                <div className="alert alert-danger" role="alert">
-                                    {errorMessage}
-                                </div>
-                            )}
+                            {/* <button className="btn btn-blue" onClick={facebook}>
+                                Login with Facebook
+                            </button> */}
                             <div className="alert alert-success" role="alert">
                                 <strong>Example</strong>
                                 <br />

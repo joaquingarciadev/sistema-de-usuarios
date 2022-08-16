@@ -35,9 +35,12 @@ export default function Settings() {
     const handleDeleteUser = async () => {
         const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/me", {
             method: "DELETE",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true,
             },
         });
         const data = await res.json();
@@ -71,34 +74,22 @@ export default function Settings() {
                             <form onSubmit={handleUpdateUser} className="mb-2">
                                 <div className="col-md-4 offset-md-4">
                                     <div className="d-flex justify-content-center mb-2">
-                                        {user.image ? (
-                                            <img
-                                                src={
-                                                    formData.image
-                                                        ? URL.createObjectURL(formData.image)
-                                                        : process.env.NEXT_PUBLIC_URL_API +
-                                                          user.image
-                                                }
-                                                alt={user.username}
-                                                className="rounded-circle"
-                                                style={{ objectFit: "cover" }}
-                                                width="200"
-                                                height="200"
-                                            />
-                                        ) : (
-                                            <img
-                                                src={
-                                                    formData.image
-                                                        ? URL.createObjectURL(formData.image)
-                                                        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                                }
-                                                alt={user.username}
-                                                className="rounded-circle"
-                                                style={{ objectFit: "cover" }}
-                                                width="200"
-                                                height="200"
-                                            />
-                                        )}
+                                        <img
+                                            src={
+                                                formData.image
+                                                    ? URL.createObjectURL(formData.image)
+                                                    : user.image
+                                                    ? process.env.NEXT_PUBLIC_URL_API + user.image
+                                                    : user.imageOauth
+                                                    ? user.imageOauth
+                                                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                            }
+                                            alt={user.username}
+                                            className="rounded-circle"
+                                            style={{ objectFit: "cover" }}
+                                            width="200"
+                                            height="200"
+                                        />
                                     </div>
                                     <div className="mb-2">
                                         <button

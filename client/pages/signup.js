@@ -32,6 +32,11 @@ export default function Signup() {
                 <Navbar />
                 <div className="col-md-4 offset-md-4 px-3 mt-5">
                     <h1>Signup</h1>
+                    {errorMessage && (
+                        <div className="alert alert-danger" role="alert">
+                            {errorMessage}
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} className="d-grid gap-3">
                         <input
                             type="text"
@@ -86,11 +91,6 @@ export default function Signup() {
                         <button type="submit" className="btn btn-primary">
                             Signup
                         </button>
-                        {errorMessage && (
-                            <div className="alert alert-danger" role="alert">
-                                {errorMessage}
-                            </div>
-                        )}
                     </form>
                 </div>
             </main>

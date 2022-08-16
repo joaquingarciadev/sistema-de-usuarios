@@ -1,10 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 
 export default function Home() {
     const { user, loading } = useContext(AppContext);
+
+    // useEffect(() => {
+    // }, []);
 
     return (
         <>

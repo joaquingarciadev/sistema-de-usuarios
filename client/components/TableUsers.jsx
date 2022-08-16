@@ -91,7 +91,7 @@ function TableUsers() {
 
     return (
         <>
-            <h2>Table users</h2>
+            <h2>Users</h2>
             <form className="mb-3">
                 <input
                     type={"text"}
@@ -160,7 +160,6 @@ function TableUsers() {
                 <table className="table">
                     <thead>
                         <tr className="table-dark">
-                            <th></th>
                             <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -182,6 +181,15 @@ function TableUsers() {
                                         width="40"
                                         height="40"
                                     />
+                                ) : user.imageOAuth ? (
+                                    <img
+                                        src={user.imageOAuth}
+                                        alt={user.username}
+                                        className="rounded-circle"
+                                        style={{ objectFit: "cover" }}
+                                        width="40"
+                                        height="40"
+                                    />
                                 ) : (
                                     <img
                                         src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -192,8 +200,8 @@ function TableUsers() {
                                         height="40"
                                     />
                                 )}
+                                {" " + user.username}
                             </td>
-                            <td>{user.username}</td>
                             <td>{user.email}</td>
                             <td>{user.role}</td>
                             <td>
@@ -216,6 +224,7 @@ function TableUsers() {
                                 ({
                                     _id,
                                     image,
+                                    imageOauth,
                                     username,
                                     email,
                                     role,
@@ -227,28 +236,23 @@ function TableUsers() {
                                         return (
                                             <tr key={_id}>
                                                 <td>
-                                                    {image ? (
-                                                        <img
-                                                            src={
-                                                                process.env.NEXT_PUBLIC_URL_API +
-                                                                image
-                                                            }
-                                                            alt={username}
-                                                            className="rounded-circle"
-                                                            width="40"
-                                                            height="40"
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                                            alt={username}
-                                                            className="rounded-circle"
-                                                            width="40"
-                                                            height="40"
-                                                        />
-                                                    )}
+                                                    <img
+                                                        src={
+                                                            image
+                                                                ? process.env.NEXT_PUBLIC_URL_API +
+                                                                  image
+                                                                : imageOauth
+                                                                ? imageOauth
+                                                                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                                        }
+                                                        alt={username}
+                                                        className="rounded-circle"
+                                                        width="40"
+                                                        height="40"
+                                                    />
+
+                                                    {" " + username}
                                                 </td>
-                                                <td>{username}</td>
                                                 <td>{email}</td>
                                                 <td>{role}</td>
                                                 <td>
