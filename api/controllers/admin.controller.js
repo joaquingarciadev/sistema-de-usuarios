@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const fs = require("fs");
 
 const getUser = async (req, res, next) => {
     const user = await User.findById(req.params.id);
@@ -18,7 +19,7 @@ const updateUser = async (req, res, next) => {
     const { username, email, password, role, status, image } = req.body;
     let passwordHash;
 
-    // Verify that they do not change the admin user
+    // This user can't be updated
     const user = await User.findById(req.params.id);
     if (user.username === "admin")
         return res.status(400).json({ error: "Admin user can't be updated" });
@@ -72,6 +73,7 @@ const updateUser = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
+    // This user can't be deleted
     const user = await User.findById(req.params.id);
     if (user.username === "admin")
         return res.status(400).json({ error: "Admin user can't be deleted" });
@@ -81,8 +83,11 @@ const deleteUser = async (req, res, next) => {
 
         if (!user) return res.status(404).json({ error: "User not found" });
 
+        // Delete image
+        if (user.image) fs.unlinkSync("." + req.user.image);
+
         res.json({
-            user: user.hiddenFields(),
+            message: "User deleted",
         });
     } catch (err) {
         next(err);
@@ -105,7 +110,9 @@ const deleteUsers = async (req, res) => {
         const users = !ids
             ? await User.deleteMany({ role: "USER" }) // Delete all users
             : await User.deleteMany({ _id: { $in: ids } }); // Delete users with ids in ids array
-        res.json(users);
+        res.json({
+            message: "Users deleted",
+        });
     } catch (err) {
         next(err);
     }

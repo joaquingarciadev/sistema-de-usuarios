@@ -25,7 +25,7 @@ function Navbar() {
 
     return (
         <header className="border-bottom" style={{ height: "60px" }}>
-            <div className="container h-100 d-flex justify-content-end align-items-center">
+            <div className="container-md h-100 d-flex justify-content-end align-items-center">
                 {user ? (
                     <div className="dropdown">
                         <a

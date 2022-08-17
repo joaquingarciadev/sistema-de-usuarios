@@ -52,7 +52,7 @@ const signup = async (req, res, next) => {
             email,
             password: passwordHash,
         });
-        res.json({ user: newUser.hiddenFields() });
+        res.json({ message: "User created successfully" });
     } catch (err) {
         next(err);
     }
@@ -61,7 +61,32 @@ const signup = async (req, res, next) => {
 const logout = async (req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.user.id, { status: "INACTIVE" });
-        res.json({ message: "Logged out" });
+
+        req.logout();
+
+        res.json({ message: "Logout successful" });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const oauth = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ username: req.user.username });
+        await User.findByIdAndUpdate(user.id, { status: "ACTIVE" });
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+
+        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
+            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+        });
+        res.json({
+            user: user,
+            token,
+            refreshToken,
+        });
     } catch (err) {
         next(err);
     }
@@ -71,4 +96,5 @@ module.exports = {
     login,
     signup,
     logout,
+    oauth,
 };

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
 let userSchema = new mongoose.Schema(
     {
@@ -16,6 +15,11 @@ let userSchema = new mongoose.Schema(
             default: "USER",
         },
         image: String,
+        imageOauth: String,
+
+        google: String,
+        facebook: String,
+        github: String,
     },
     { timestamps: true }
 );

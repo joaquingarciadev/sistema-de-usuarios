@@ -118,7 +118,7 @@ export default function Login() {
                             </button>
                             <hr />
                             <button className="btn btn-red" onClick={google}>
-                                <i class="bi bi-google"></i> Login with Google
+                                <i className="bi bi-google"></i> Login with Google
                             </button>
                             {/* <button className="btn btn-blue" onClick={facebook}>
                                 Login with Facebook
