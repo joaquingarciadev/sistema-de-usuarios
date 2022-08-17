@@ -14,12 +14,8 @@ export default function Login() {
             const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/auth/success", {
                 method: "GET",
                 credentials: "include",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true,
-                },
             });
+            console.log(res);
             if (res.status !== 500) {
                 const data = await res.json();
                 if (data.error) {
@@ -67,7 +63,7 @@ export default function Login() {
     return (
         <>
             <Head>
-                <title>Login</title>
+                <title>Log in</title>
             </Head>
             <main>
                 <Navbar />
@@ -77,7 +73,7 @@ export default function Login() {
                     </div>
                 ) : (
                     <div className="col-md-4 offset-md-4 px-3 mt-5">
-                        <h1>Login</h1>
+                        <h1>Log in</h1>
                         {errorMessage && (
                             <div className="alert alert-danger" role="alert">
                                 {errorMessage}
@@ -114,11 +110,11 @@ export default function Login() {
                                 <a>You don't have an account? Signup</a>
                             </Link>
                             <button type="submit" className="btn btn-primary">
-                                Login
+                                Log in
                             </button>
                             <hr />
                             <button className="btn btn-red" onClick={google}>
-                                <i className="bi bi-google"></i> Login with Google
+                                <i className="bi bi-google"></i>&emsp;Log in with Google
                             </button>
                             {/* <button className="btn btn-blue" onClick={facebook}>
                                 Login with Facebook

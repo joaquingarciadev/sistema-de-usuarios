@@ -200,7 +200,7 @@ function TableUsers() {
                                         height="40"
                                     />
                                 )}
-                                {" " + user.username}
+                                &ensp;{user.username}
                             </td>
                             <td>{user.email}</td>
                             <td>{user.role}</td>
@@ -250,8 +250,7 @@ function TableUsers() {
                                                         width="40"
                                                         height="40"
                                                     />
-
-                                                    {" " + username}
+                                                    &ensp;{username}
                                                 </td>
                                                 <td>{email}</td>
                                                 <td>{role}</td>

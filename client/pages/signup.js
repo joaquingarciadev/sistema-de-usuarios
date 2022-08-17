@@ -26,12 +26,12 @@ export default function Signup() {
     return (
         <>
             <Head>
-                <title>Signup</title>
+                <title>Sign up</title>
             </Head>
             <main>
                 <Navbar />
                 <div className="col-md-4 offset-md-4 px-3 mt-5">
-                    <h1>Signup</h1>
+                    <h1>Sign up</h1>
                     {errorMessage && (
                         <div className="alert alert-danger" role="alert">
                             {errorMessage}
@@ -89,7 +89,7 @@ export default function Signup() {
                             </label>
                         </div>
                         <button type="submit" className="btn btn-primary">
-                            Signup
+                            Sign up
                         </button>
                     </form>
                 </div>

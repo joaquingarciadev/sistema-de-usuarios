@@ -41,7 +41,7 @@ const signup = async (req, res, next) => {
         return res.status(401).json({ error: "Complete all fields" });
 
     if (await User.findOne({ username }))
-        return res.status(400).json({ error: "Username already exists" });
+        return res.status(400).json({ error: "This user already exists" });
 
     try {
         const salt = await bcrypt.genSalt(10);
@@ -61,7 +61,7 @@ const signup = async (req, res, next) => {
 const logout = async (req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.user.id, { status: "INACTIVE" });
-
+        
         req.logout();
 
         res.json({ message: "Logout successful" });

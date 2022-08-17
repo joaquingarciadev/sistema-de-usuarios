@@ -16,24 +16,29 @@ app.use(
         extended: false,
     })
 );
+
 // Cors
 app.use(
-    cors({ origin: process.env.URL_CLIENT, methods: "GET,POST,PUT,DELETE", credentials: true })
+    cors({
+        credentials: true,
+        origin: process.env.URL_CLIENT,
+    })
 );
 
 // Session
 app.use(
-    // session({
-    //     secret: "secret",
-    //     resave: true,
-    //     saveUninitialized: true,
-    //     cookie: { maxAge: 60000 },
-    // })
-    session({ name: "session", keys: ["secret"], maxAge: 24 * 60 * 60 * 100 })
+    session({
+        secret: "yourSecret",
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+    })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.enable("trust proxy");
 
 // Import middlewares
 require("./middlewares/passport.middleware");

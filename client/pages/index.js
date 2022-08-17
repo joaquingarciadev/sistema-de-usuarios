@@ -16,14 +16,14 @@ export default function Home() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container p-2">
+                <div className="container-md">
                     {loading ? (
                         <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
                             <div className="spinner-border" role="status"></div>
                         </div>
                     ) : user ? (
                         <>
-                            <h1>Hello {user.username}!</h1>
+                            <h1>Hi {user.username}!👋</h1>
                             <p>Role: {user.role}</p>
                             <p>Status: {user.status}</p>
                         </>

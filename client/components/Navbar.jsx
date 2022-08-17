@@ -13,9 +13,6 @@ function Navbar() {
             credentials: "include",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true,
             },
         });
         localStorage.removeItem("token");
@@ -65,7 +62,7 @@ function Navbar() {
                             )}
                             <div className="dropdown-divider"></div>
                             <a href="#" className="dropdown-item" onClick={handleLogout}>
-                                Logout
+                                Log out
                             </a>
                         </ul>
                     </div>
@@ -73,12 +70,12 @@ function Navbar() {
                     <div className="d-flex gap-2">
                         <Link href={"/login"} passHref>
                             <button type="button" className="btn btn-outline-primary">
-                                Login
+                                Log in
                             </button>
                         </Link>
                         <Link href={"/signup"} passHref>
                             <button type="button" className="btn btn-primary">
-                                Signup
+                                Sign up
                             </button>
                         </Link>
                     </div>
