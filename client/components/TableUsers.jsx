@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
+import Modal from "react-bootstrap/Modal";
 
 function TableUsers() {
     const { user } = useContext(AppContext);
@@ -63,6 +64,7 @@ function TableUsers() {
             setErrorMessage(data.error);
         } else {
             getUsers();
+            setShowFormUser(false);
         }
     };
 
@@ -92,23 +94,17 @@ function TableUsers() {
     return (
         <>
             <h2>Users</h2>
-            <form className="mb-3">
-                <input
-                    type={"text"}
-                    placeholder={"Search users..."}
-                    onChange={(e) => setSearchData(e.target.value)}
-                    className="form-control"
-                />
-            </form>
-            {showFormUser && (
-                <>
-                    <h3>Edit user</h3>
+            <Modal show={showFormUser} onHide={() => setShowFormUser(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit user</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     {errorMessage && (
                         <div className="alert alert-danger" role="alert">
                             {errorMessage}
                         </div>
                     )}
-                    <form onSubmit={handleUpdateUser} className="input-group mb-3">
+                    <form className="d-grid gap-3">
                         <input
                             type="text"
                             name="username"
@@ -149,12 +145,23 @@ function TableUsers() {
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="INACTIVE">INACTIVE</option>
                         </select>
-                        <button type="submit" className="btn btn-primary">
-                            Submit
-                        </button>
                     </form>
-                </>
-            )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn btn-primary" onClick={handleUpdateUser}>
+                        Save Changes
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+            <form className="mb-3">
+                <input
+                    type={"text"}
+                    placeholder={"Search users..."}
+                    onChange={(e) => setSearchData(e.target.value)}
+                    className="form-control"
+                />
+            </form>
 
             <div className="table-responsive">
                 <table className="table">

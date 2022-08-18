@@ -20,7 +20,7 @@ passport.use(
 
                 const newUser = await User.create({
                     username: profile.displayName + "-" + uuidv4(),
-                    email: profile.email,
+                    email: profile.emails[0].value,
                     imageOauth: profile.photos[0].value,
                     google: profile.id,
                 });

@@ -2,12 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
+import Modal from "react-bootstrap/Modal";
 
 export default function Settings() {
     const { user, loading } = useContext(AppContext);
     const [formData, setFormData] = useState({});
     const [errorUpdate, setErrorUpdate] = useState("");
     const [errorDelete, setErrorDelete] = useState("");
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
@@ -148,20 +153,30 @@ export default function Settings() {
                                 </button>
                             </form>
                             <h2>Delete</h2>
-                            {errorDelete && (
-                                <div className="alert alert-danger" role="alert">
-                                    {errorDelete}
-                                </div>
-                            )}
-                            <button
-                                onClick={() => {
-                                    const confirm = window.confirm("Are you sure?");
-                                    if (confirm) handleDeleteUser();
-                                }}
-                                className="btn btn-danger"
-                            >
+                            <button onClick={handleShow} className="btn btn-danger">
                                 Delete
                             </button>
+                            <Modal show={show} onHide={handleClose} centered>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Delete user</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {errorDelete && (
+                                        <div className="alert alert-danger" role="alert">
+                                            {errorDelete}
+                                        </div>
+                                    )}
+                                    Are you sure you want to delete your account?
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button className="btn btn-secondary" onClick={handleClose}>
+                                        Close
+                                    </button>
+                                    <button className="btn btn-danger" onClick={handleDeleteUser}>
+                                        Delete
+                                    </button>
+                                </Modal.Footer>
+                            </Modal>
                             <br />
                         </>
                     ) : (
