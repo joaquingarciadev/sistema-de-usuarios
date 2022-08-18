@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        import("bootstrap/dist/js/bootstrap");
+        typeof document !== undefined ? require("bootstrap/dist/js/bootstrap") : null;
     }, []);
 
     useEffect(() => {

@@ -38,9 +38,6 @@ export default function Settings() {
             credentials: "include",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true,
             },
         });
         const data = await res.json();
@@ -58,7 +55,7 @@ export default function Settings() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container p-2">
+                <div className="container-md">
                     {loading ? (
                         <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
                             <div className="spinner-border" role="status"></div>
@@ -156,7 +153,13 @@ export default function Settings() {
                                     {errorDelete}
                                 </div>
                             )}
-                            <button onClick={handleDeleteUser} className="btn btn-danger">
+                            <button
+                                onClick={() => {
+                                    const confirm = window.confirm("Are you sure?");
+                                    if (confirm) handleDeleteUser();
+                                }}
+                                className="btn btn-danger"
+                            >
                                 Delete
                             </button>
                             <br />

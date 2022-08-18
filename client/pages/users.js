@@ -14,7 +14,7 @@ export default function Users() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container p-2">
+                <div className="container-md">
                     {loading ? (
                         <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
                             <div className="spinner-border" role="status"></div>

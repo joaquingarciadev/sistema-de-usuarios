@@ -15,7 +15,6 @@ export default function Login() {
                 method: "GET",
                 credentials: "include",
             });
-            console.log(res);
             if (res.status !== 500) {
                 const data = await res.json();
                 if (data.error) {
@@ -60,6 +59,11 @@ export default function Login() {
         window.open(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/facebook`, "_self");
     };
 
+    const github = (e) => {
+        e.preventDefault();
+        window.open(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/github`, "_self");
+    };
+
     return (
         <>
             <Head>
@@ -67,68 +71,86 @@ export default function Login() {
             </Head>
             <main>
                 <Navbar />
-                {user ? (
-                    <div className="container">
+                <div className="container-md">
+                    {user ? (
                         <h1>You are logged</h1>
-                    </div>
-                ) : (
-                    <div className="col-md-4 offset-md-4 px-3 mt-5">
-                        <h1>Log in</h1>
-                        {errorMessage && (
-                            <div className="alert alert-danger" role="alert">
-                                {errorMessage}
-                            </div>
-                        )}
-                        <form onSubmit={handleSubmit} className="d-grid gap-3">
-                            <input
-                                type="text"
-                                name="username"
-                                placeholder="Username"
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        username: e.target.value,
-                                    })
-                                }
-                                className="form-control"
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        password: e.target.value,
-                                    })
-                                }
-                                className="form-control"
-                                required
-                            />
-                            <Link href="/signup">
-                                <a>You don't have an account? Signup</a>
-                            </Link>
-                            <button type="submit" className="btn btn-primary">
-                                Log in
-                            </button>
-                            <hr />
-                            <button className="btn btn-red" onClick={google}>
-                                <i className="bi bi-google"></i>&emsp;Log in with Google
-                            </button>
-                            {/* <button className="btn btn-blue" onClick={facebook}>
-                                Login with Facebook
-                            </button> */}
-                            <div className="alert alert-success" role="alert">
-                                <strong>Example</strong>
-                                <br />
-                                Username: admin
-                                <br />
-                                Password: admin
-                            </div>
-                        </form>
-                    </div>
-                )}
+                    ) : (
+                        <div className="col-md-4 offset-md-4">
+                            <h1 className="text-center">Log in</h1>
+                            {errorMessage && (
+                                <div className="alert alert-danger" role="alert">
+                                    {errorMessage}
+                                </div>
+                            )}
+                            <form onSubmit={handleSubmit} className="d-grid gap-3">
+                                <input
+                                    type="text"
+                                    name="username"
+                                    placeholder="Username"
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            username: e.target.value,
+                                        })
+                                    }
+                                    className="form-control"
+                                    required
+                                />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            password: e.target.value,
+                                        })
+                                    }
+                                    className="form-control"
+                                    required
+                                />
+                                <Link href="/signup">
+                                    <a>You don't have an account? Signup</a>
+                                </Link>
+                                <button type="submit" className="btn btn-primary">
+                                    Log in
+                                </button>
+                                <div className="w-100 position-relative text-center">
+                                    <hr className="text-dark" />
+                                    <div
+                                        className="divider-content-center"
+                                        style={{
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            backgroundColor: "var(--bs-body-bg)",
+                                            padding: "0.5rem",
+                                        }}
+                                    >
+                                        <span className="text-secondary">or log in with</span>
+                                    </div>
+                                </div>
+                                <button className="btn btn-red" onClick={google}>
+                                    <i className="bi bi-google"></i>&emsp;Log in with Google
+                                </button>
+                                <button className="btn btn-blue" onClick={facebook}>
+                                    <i className="bi bi-facebook"></i>&emsp;Log in with Facebook
+                                </button>
+                                <button className="btn btn-dark" onClick={github}>
+                                    <i className="bi bi-github"></i>&emsp;Log in with Github
+                                </button>
+                                <div className="alert alert-success" role="alert">
+                                    <strong>Example</strong>
+                                    <br />
+                                    Username: admin
+                                    <br />
+                                    Password: admin
+                                </div>
+                            </form>
+                        </div>
+                    )}
+                </div>
             </main>
         </>
     );

@@ -40,7 +40,7 @@ const signup = async (req, res, next) => {
     if (!username || !email || !password)
         return res.status(401).json({ error: "Complete all fields" });
 
-    if (await User.findOne({ username }))
+    if (await User.findOne({ $or: [{ username }, { email }] }))
         return res.status(400).json({ error: "This user already exists" });
 
     try {
@@ -61,7 +61,7 @@ const signup = async (req, res, next) => {
 const logout = async (req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.user.id, { status: "INACTIVE" });
-        
+
         req.logout();
 
         res.json({ message: "Logout successful" });

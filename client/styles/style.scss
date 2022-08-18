@@ -25,6 +25,10 @@ $theme-colors: (
 
 @import '~bootstrap/scss/bootstrap.scss';
 
+.table {
+    width: 100% !important;
+    min-width: max-content !important;
+}
 td {
     vertical-align: middle !important;
 }

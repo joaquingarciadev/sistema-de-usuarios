@@ -28,7 +28,7 @@ app.use(
 // Session
 app.use(
     session({
-        secret: "yourSecret",
+        secret: "secret",
         sameSite: "none",
         secure: true,
         httpOnly: true,

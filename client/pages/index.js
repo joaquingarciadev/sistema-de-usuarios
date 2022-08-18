@@ -23,7 +23,7 @@ export default function Home() {
                         </div>
                     ) : user ? (
                         <>
-                            <h1>Hi {user.username}!👋</h1>
+                            <h1 className="my-4">Hi {user.username}!👋</h1>
                             <p>Role: {user.role}</p>
                             <p>Status: {user.status}</p>
                         </>

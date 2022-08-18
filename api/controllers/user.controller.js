@@ -26,6 +26,11 @@ const updateAccount = async (req, res, next) => {
         return res.status(400).json({ error: "Admin user can't be updated" });
     }
 
+    if (await User.findOne({ $or: [{ username }, { email }] })) {
+        if (image) fs.unlinkSync("." + image);
+        return res.status(400).json({ error: "This user already exists" });
+    }
+
     try {
         if (password) {
             const salt = await bcrypt.genSalt(10);
