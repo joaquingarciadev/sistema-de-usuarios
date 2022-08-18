@@ -1,14 +1,9 @@
 # Sistema de usuarios
-App que contiene autenticación, registro, sesiones y gestión de usuarios.
+App que contiene autenticación, autenticación oauth, registro, sesiones y gestión de usuarios.
 
 ## Tecnologías
 Frontend: NextJS y Bootstrap.
-
-Backend: NodeJS, ExpressJS y MongoDB.
-
-Seguridad: JWT y Bcrypt.
-
-Imágenes: multer y fs.
+Backend: NodeJS, ExpressJS, MongoDB, JWT, Bcrypt, Passport, multer y fs.
 
 ### Demo :computer:
 https://sistema-de-usuarios.vercel.app
