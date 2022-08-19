@@ -14,10 +14,6 @@ export default function Settings() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    useEffect(() => {
-        console.log(formData);
-    }, [formData]);
-
     const handleUpdateUser = async (e) => {
         e.preventDefault();
 
