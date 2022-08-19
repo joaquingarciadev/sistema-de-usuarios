@@ -179,34 +179,20 @@ function TableUsers() {
                     <tbody>
                         <tr className="table-secondary">
                             <td>
-                                {user.image ? (
-                                    <img
-                                        src={process.env.NEXT_PUBLIC_URL_API + user.image}
-                                        alt={user.username}
-                                        className="rounded-circle"
-                                        style={{ objectFit: "cover" }}
-                                        width="40"
-                                        height="40"
-                                    />
-                                ) : user.imageOAuth ? (
-                                    <img
-                                        src={user.imageOAuth}
-                                        alt={user.username}
-                                        className="rounded-circle"
-                                        style={{ objectFit: "cover" }}
-                                        width="40"
-                                        height="40"
-                                    />
-                                ) : (
-                                    <img
-                                        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                        alt={user.username}
-                                        className="rounded-circle"
-                                        style={{ objectFit: "cover" }}
-                                        width="40"
-                                        height="40"
-                                    />
-                                )}
+                                <img
+                                    src={
+                                        user.image
+                                            ? process.env.NEXT_PUBLIC_URL_API + user.image
+                                            : user.imageOauth
+                                            ? user.imageOauth
+                                            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                    }
+                                    alt={user.username}
+                                    className="rounded-circle"
+                                    style={{ objectFit: "cover" }}
+                                    width="40"
+                                    height="40"
+                                />
                                 &ensp;{user.username}
                             </td>
                             <td>{user.email}</td>
