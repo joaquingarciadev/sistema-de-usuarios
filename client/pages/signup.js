@@ -120,7 +120,7 @@ export default function Signup() {
                                         padding: "0.5rem",
                                     }}
                                 >
-                                    <span className="text-secondary">or sign up with</span>
+                                    <span className="text-secondary">or</span>
                                 </div>
                             </div>
                             <button className="btn btn-red" onClick={google}>

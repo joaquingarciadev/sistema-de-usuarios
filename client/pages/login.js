@@ -172,7 +172,7 @@ export default function Login() {
                                             padding: "0.5rem",
                                         }}
                                     >
-                                        <span className="text-secondary">or log in with</span>
+                                        <span className="text-secondary">or</span>
                                     </div>
                                 </div>
                                 <button className="btn btn-red" onClick={google}>

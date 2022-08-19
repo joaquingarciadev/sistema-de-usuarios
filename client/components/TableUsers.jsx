@@ -64,7 +64,7 @@ function TableUsers() {
         if (data.error) {
             setErrorMessageEdit(data.error);
         } else {
-            getUsers();
+            await getUsers();
             setShowFormUser(false);
         }
     };
@@ -81,9 +81,9 @@ function TableUsers() {
         if (data.error) {
             setErrorMessageDelete(data.error);
         } else {
-            getUsers();
+            await getUsers();
+            setShowFormUser(false);
         }
-        setShowFormUser(false);
     };
 
     const handleFormUser = (id) => {
