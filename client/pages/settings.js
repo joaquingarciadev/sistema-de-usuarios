@@ -9,10 +9,14 @@ export default function Settings() {
     const [formData, setFormData] = useState({});
     const [errorUpdate, setErrorUpdate] = useState("");
     const [errorDelete, setErrorDelete] = useState("");
-    const [show, setShow] = useState(false);
 
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();

@@ -8,6 +8,8 @@ export default function Login() {
     const { user } = useContext(AppContext);
     const [formData, setFormData] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [remember, setRemember] = useState(false);
 
     useEffect(() => {
         const oauth = async () => {
@@ -21,7 +23,7 @@ export default function Login() {
                     setErrorMessage(data.error);
                 } else {
                     localStorage.setItem("token", data.token);
-                    localStorage.setItem("refreshToken", data.refreshToken);
+                    if (remember) localStorage.setItem("refreshToken", data.refreshToken);
                     window.location.href = "/";
                 }
             }
@@ -44,7 +46,7 @@ export default function Login() {
             setErrorMessage(data.error);
         } else {
             localStorage.setItem("token", data.token);
-            localStorage.setItem("refreshToken", data.refreshToken);
+            if (remember) localStorage.setItem("refreshToken", data.refreshToken);
             window.location.href = "/";
         }
     };
@@ -96,19 +98,61 @@ export default function Login() {
                                     className="form-control"
                                     required
                                 />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            password: e.target.value,
-                                        })
-                                    }
-                                    className="form-control"
-                                    required
-                                />
+                                <div className="position-relative">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        placeholder="Password"
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                password: e.target.value,
+                                            })
+                                        }
+                                        className="form-control"
+                                        required
+                                    />
+                                    <div
+                                        className="position-absolute"
+                                        style={{
+                                            top: "50%",
+                                            right: "10px",
+                                            transform: "translateY(-50%)",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        {showPassword ? (
+                                            <i
+                                                className="bi bi-eye"
+                                                onClick={() => setShowPassword(false)}
+                                            ></i>
+                                        ) : (
+                                            <i
+                                                className="bi bi-eye-slash"
+                                                onClick={() => setShowPassword(true)}
+                                            ></i>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <div className="form-check">
+                                        <input
+                                            type="checkbox"
+                                            className="form-check-input"
+                                            id="remember"
+                                            onChange={(e) => setRemember(e.target.checked)}
+                                            checked={remember}
+                                        />
+                                        <label className="form-check-label" htmlFor="remember">
+                                            Remember me
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <Link href="#" /* href="/forgot" */>
+                                            <a>Forgot password?</a>
+                                        </Link>
+                                    </div>
+                                </div>
                                 <Link href="/signup">
                                     <a>You don't have an account? Signup</a>
                                 </Link>
