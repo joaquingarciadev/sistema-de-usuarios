@@ -9,7 +9,8 @@ function TableUsers() {
     const [formData, setFormData] = useState({});
     const [showFormUser, setShowFormUser] = useState(false);
     const [idFormUser, setIdFormUser] = useState(null);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessageEdit, setErrorMessageEdit] = useState("");
+    const [errorMessageDelete, setErrorMessageDelete] = useState("");
     const [searchData, setSearchData] = useState("");
 
     useEffect(() => {
@@ -61,7 +62,7 @@ function TableUsers() {
         });
         const data = await res.json();
         if (data.error) {
-            setErrorMessage(data.error);
+            setErrorMessageEdit(data.error);
         } else {
             getUsers();
             setShowFormUser(false);
@@ -78,7 +79,7 @@ function TableUsers() {
         });
         const data = await res.json();
         if (data.error) {
-            setErrorMessage(data.error);
+            setErrorMessageDelete(data.error);
         } else {
             getUsers();
         }
@@ -86,7 +87,7 @@ function TableUsers() {
     };
 
     const handleFormUser = (id) => {
-        setErrorMessage("");
+        setErrorMessageEdit("");
         setShowFormUser(!showFormUser);
         setIdFormUser(id);
     };
@@ -94,14 +95,15 @@ function TableUsers() {
     return (
         <>
             <h2>Users</h2>
+
             <Modal show={showFormUser} onHide={() => setShowFormUser(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {errorMessage && (
+                    {errorMessageEdit && (
                         <div className="alert alert-danger" role="alert">
-                            {errorMessage}
+                            {errorMessageEdit}
                         </div>
                     )}
                     <form className="d-grid gap-3">
@@ -153,6 +155,12 @@ function TableUsers() {
                     </button>
                 </Modal.Footer>
             </Modal>
+
+            {errorMessageDelete && (
+                <div className="alert alert-danger" role="alert">
+                    {errorMessageDelete}
+                </div>
+            )}
 
             <form className="mb-3">
                 <input
