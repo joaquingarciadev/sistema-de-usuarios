@@ -25,7 +25,7 @@ passport.use(
                 const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
                     userSameEmail.google = id;
-                    userSameEmail.save();
+                    await userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
@@ -63,7 +63,7 @@ passport.use(
                 const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
                     userSameEmail.facebook = id;
-                    userSameEmail.save();
+                    await userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
@@ -101,7 +101,7 @@ passport.use(
                 const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
                     userSameEmail.github = id;
-                    userSameEmail.save();
+                    await userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
