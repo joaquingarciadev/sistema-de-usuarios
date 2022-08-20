@@ -1,6 +1,9 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const { v4: uuidv4 } = require("uuid");
 
 const login = async (req, res, next) => {
     const { username, password } = req.body;
@@ -92,9 +95,75 @@ const oauth = async (req, res, next) => {
     }
 };
 
+const onetap = async (req, res, next) => {
+    try {
+        const { credential } = req.body;
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { sub: id, name: username, email, picture: imageOauth } = payload;
+
+        const user = await User.findOne({ google: id });
+        if (user) {
+            await User.findByIdAndUpdate(user.id, { status: "ACTIVE" });
+            const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
+                expiresIn: process.env.JWT_EXPIRES_IN,
+            });
+            const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            });
+            return res.json({
+                user: user.hiddenFields(),
+                token,
+                refreshToken,
+            });
+        }
+
+        const userSameEmail = await User.findOne({ email });
+        if (userSameEmail) {
+            await User.findByIdAndUpdate(userSameEmail.id, { status: "ACTIVE", google: id });
+            const token = jwt.sign({ id: userSameEmail.id }, process.env.JWT_KEY, {
+                expiresIn: process.env.JWT_EXPIRES_IN,
+            });
+            const refreshToken = jwt.sign({ id: userSameEmail.id }, process.env.JWT_REFRESH_KEY, {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            });
+            return res.json({
+                user: user.hiddenFields(),
+                token,
+                refreshToken,
+            });
+        }
+
+        const newUser = await User.create({
+            username: username + "-" + uuidv4(),
+            email,
+            imageOauth,
+            google: id,
+            status: "ACTIVE",
+        });
+        const token = jwt.sign({ id: newUser.id }, process.env.JWT_KEY, {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+        });
+        const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH_KEY, {
+            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+        });
+        res.json({
+            user: newUser.hiddenFields(),
+            token,
+            refreshToken,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     login,
     signup,
     logout,
     oauth,
+    onetap,
 };

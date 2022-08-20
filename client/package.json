@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "^5.2.0-beta1",
     "bootstrap-icons": "^1.9.1",
+    "google-one-tap": "^1.0.6",
     "next": "12.2.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.5.0",

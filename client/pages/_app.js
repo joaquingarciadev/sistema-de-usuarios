@@ -3,6 +3,7 @@ import AppContext from "../contexts/AppContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/style.scss";
+import googleOneTap from "google-one-tap";
 
 function MyApp({ Component, pageProps }) {
     const [user, setUser] = useState(null);
@@ -12,6 +13,38 @@ function MyApp({ Component, pageProps }) {
         typeof document !== undefined ? require("bootstrap/dist/js/bootstrap") : null;
     }, []);
 
+    // Google One Tap
+    const options = {
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID, // required
+        auto_select: false, // optional
+        cancel_on_tap_outside: false, // optional
+        context: "signin", // optional
+    };
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            googleOneTap(options, async (response) => {
+                // Send response to server
+                const res = await fetch(
+                    process.env.NEXT_PUBLIC_URL_API + "/api/auth/google/onetap",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(response),
+                    }
+                );
+                if (res.status !== 500) {
+                    const data = await res.json();
+                    localStorage.setItem("token", data.token);
+                    window.location.reload();
+                }
+            });
+        }
+    }, []);
+
+    // Get user
     useEffect(() => {
         const getUser = async () => {
             setLoading(true);

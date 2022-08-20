@@ -68,12 +68,12 @@ function Navbar() {
                     </div>
                 ) : (
                     <div className="d-flex gap-2">
-                        <Link href={"/login"} passHref>
+                        <Link href="/login">
                             <button type="button" className="btn btn-outline-primary">
                                 Log in
                             </button>
                         </Link>
-                        <Link href={"/signup"} passHref>
+                        <Link href="/signup">
                             <button type="button" className="btn btn-primary">
                                 Sign up
                             </button>

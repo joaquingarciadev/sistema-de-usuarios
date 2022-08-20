@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 // Import controllers
-const { login, signup, logout, oauth } = require("../controllers/auth.controller");
+const { login, signup, logout, oauth, onetap } = require("../controllers/auth.controller");
 // Import middlewares
 const { verifyToken, refreshToken } = require("../middlewares/auth.middleware");
 
@@ -46,5 +46,8 @@ router.get(
         res.redirect(process.env.URL_CLIENT + "/login");
     }
 );
+
+// Google One Tap
+router.post("/auth/google/onetap", onetap);
 
 module.exports = router;

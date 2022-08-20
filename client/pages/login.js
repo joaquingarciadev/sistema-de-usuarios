@@ -23,7 +23,6 @@ export default function Login() {
                     setErrorMessage(data.error);
                 } else {
                     localStorage.setItem("token", data.token);
-                    if (remember) localStorage.setItem("refreshToken", data.refreshToken);
                     window.location.href = "/";
                 }
             }
