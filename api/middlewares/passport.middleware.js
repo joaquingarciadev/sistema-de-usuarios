@@ -15,21 +15,25 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                const user = await User.findOne({ google: profile.id });
+                const { id, displayName, photos, emails } = profile;
+                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const email = emails && emails.length ? emails[0].value : "";
+
+                const user = await User.findOne({ google: id });
                 if (user) return done(null, user);
 
-                const userSameEmail = await User.findOne({ email: profile.emails[0].value });
+                const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
-                    userSameEmail.google = profile.id;
+                    userSameEmail.google = id;
                     userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
                 const newUser = await User.create({
-                    username: profile.displayName + "-" + uuidv4(),
-                    email: profile.emails[0].value,
-                    imageOauth: profile.photos[0].value,
-                    google: profile.id,
+                    username: displayName + "-" + uuidv4(),
+                    email,
+                    imageOauth,
+                    google: id,
                 });
                 return done(null, newUser);
             } catch (error) {
@@ -49,21 +53,25 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                const user = await User.findOne({ facebook: profile.id });
+                const { id, displayName, photos, emails } = profile;
+                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const email = emails && emails.length ? emails[0].value : "";
+
+                const user = await User.findOne({ facebook: id });
                 if (user) return done(null, user);
 
-                const userSameEmail = await User.findOne({ email: profile.emails[0].value });
+                const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
-                    userSameEmail.facebook = profile.id;
+                    userSameEmail.facebook = id;
                     userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
                 const newUser = await User.create({
-                    username: profile.displayName + "-" + uuidv4(),
-                    email: profile.emails[0].value,
-                    imageOauth: profile.photos[0].value,
-                    facebook: profile.id,
+                    username: displayName + "-" + uuidv4(),
+                    email,
+                    imageOauth,
+                    facebook: id,
                 });
                 return done(null, newUser);
             } catch (error) {
@@ -83,21 +91,25 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                const user = await User.findOne({ github: profile.id });
+                const { id, displayName, photos, emails } = profile;
+                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const email = emails && emails.length ? emails[0].value : "";
+
+                const user = await User.findOne({ github: id });
                 if (user) return done(null, user);
 
-                const userSameEmail = await User.findOne({ email: profile.email });
+                const userSameEmail = await User.findOne({ email });
                 if (userSameEmail) {
-                    userSameEmail.github = profile.id;
+                    userSameEmail.github = id;
                     userSameEmail.save();
                     return done(null, userSameEmail);
                 }
 
                 const newUser = await User.create({
-                    username: profile.displayName + "-" + uuidv4(),
-                    email: profile.email || "",
-                    imageOauth: profile.photos[0].value,
-                    github: profile.id,
+                    username: displayName + "-" + uuidv4(),
+                    email,
+                    imageOauth,
+                    github: id,
                 });
                 return done(null, newUser);
             } catch (error) {
