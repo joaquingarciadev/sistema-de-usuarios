@@ -83,7 +83,7 @@ const oauth = async (req, res, next) => {
             expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
         });
         res.json({
-            user: user,
+            user: user.hiddenFields(),
             token,
             refreshToken,
         });

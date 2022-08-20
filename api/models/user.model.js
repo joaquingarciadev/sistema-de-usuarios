@@ -25,7 +25,7 @@ let userSchema = new mongoose.Schema(
 );
 
 userSchema.methods.hiddenFields = function () {
-    delete this.password;
+    if (this.password) delete this.password;
     return this;
 };
 
