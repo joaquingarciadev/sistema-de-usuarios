@@ -18,6 +18,13 @@ passport.use(
                 const user = await User.findOne({ google: profile.id });
                 if (user) return done(null, user);
 
+                const userSameEmail = await User.findOne({ email: profile.emails[0].value });
+                if (userSameEmail) {
+                    userSameEmail.google = profile.id;
+                    userSameEmail.save();
+                    return done(null, userSameEmail);
+                }
+
                 const newUser = await User.create({
                     username: profile.displayName + "-" + uuidv4(),
                     email: profile.emails[0].value,
@@ -45,6 +52,13 @@ passport.use(
                 const user = await User.findOne({ facebook: profile.id });
                 if (user) return done(null, user);
 
+                const userSameEmail = await User.findOne({ email: profile.emails[0].value });
+                if (userSameEmail) {
+                    userSameEmail.facebook = profile.id;
+                    userSameEmail.save();
+                    return done(null, userSameEmail);
+                }
+
                 const newUser = await User.create({
                     username: profile.displayName + "-" + uuidv4(),
                     email: profile.emails[0].value,
@@ -71,6 +85,13 @@ passport.use(
             try {
                 const user = await User.findOne({ github: profile.id });
                 if (user) return done(null, user);
+
+                const userSameEmail = await User.findOne({ email: profile.email });
+                if (userSameEmail) {
+                    userSameEmail.github = profile.id;
+                    userSameEmail.save();
+                    return done(null, userSameEmail);
+                }
 
                 const newUser = await User.create({
                     username: profile.displayName + "-" + uuidv4(),
