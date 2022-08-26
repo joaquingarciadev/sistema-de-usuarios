@@ -11,6 +11,12 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [remember, setRemember] = useState(false);
 
+    const handleChange = (e) =>
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+
     useEffect(() => {
         const oauth = async () => {
             const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/auth/success", {
@@ -72,7 +78,7 @@ export default function Login() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container-md">
+                <div className="container-md pt-3">
                     {user ? (
                         <h1>You are logged</h1>
                     ) : (
@@ -88,12 +94,7 @@ export default function Login() {
                                     type="text"
                                     name="username"
                                     placeholder="Username"
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            username: e.target.value,
-                                        })
-                                    }
+                                    onChange={handleChange}
                                     className="form-control"
                                     required
                                 />
@@ -102,12 +103,7 @@ export default function Login() {
                                         type={showPassword ? "text" : "password"}
                                         name="password"
                                         placeholder="Password"
-                                        onChange={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                password: e.target.value,
-                                            })
-                                        }
+                                        onChange={handleChange}
                                         className="form-control"
                                         required
                                     />

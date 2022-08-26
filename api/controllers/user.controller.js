@@ -17,11 +17,12 @@ const getAccount = async (req, res, next) => {
 
 const updateAccount = async (req, res, next) => {
     const { username, email, password } = req.body;
-    let passwordHash;
     let image = req.file && "/" + req.file.path.replace(/\\/g, "/");
 
+    const user = await User.findById(req.user.id);
+
     // This user can't be updated
-    if (req.user.username === "admin") {
+    if (user.username === "admin") {
         if (image) fs.unlinkSync("." + image);
         return res.status(400).json({ error: "Admin user can't be updated" });
     }
@@ -31,24 +32,28 @@ const updateAccount = async (req, res, next) => {
         return res.status(400).json({ error: "This user already exists" });
     }
 
+    if (password && !bcrypt.compare(password, user.password)) {
+        if (image) fs.unlinkSync("." + image);
+        return res.status(400).json({ error: "New password cannot be the same as old" });
+    }
+
     try {
         if (password) {
             const salt = await bcrypt.genSalt(10);
-            passwordHash = await bcrypt.hash(password, salt);
+            password = await bcrypt.hash(password, salt);
         }
 
         const user = await User.findByIdAndUpdate(req.user.id, {
             username,
             email,
-            password: passwordHash,
+            password,
             image,
         });
 
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete old image
-        if (image && req.user.image && image !== req.user.image)
-            fs.unlinkSync("." + req.user.image);
+        if (image && user.image && image !== user.image) fs.unlinkSync("." + user.image);
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
@@ -69,8 +74,10 @@ const updateAccount = async (req, res, next) => {
 };
 
 const deleteAccount = async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
     // This user can't be deleted
-    if (req.user.username === "admin")
+    if (user.username === "admin")
         return res.status(400).json({ error: "Admin user can't be deleted" });
 
     try {
@@ -79,7 +86,7 @@ const deleteAccount = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete image
-        if (user.image) fs.unlinkSync("." + req.user.image);
+        if (user.image) fs.unlinkSync("." + user.image);
 
         req.logout();
 

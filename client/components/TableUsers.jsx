@@ -6,12 +6,12 @@ function TableUsers() {
     const { user } = useContext(AppContext);
     const [users, setUsers] = useState([]);
     const [resultUsers, setResultUsers] = useState([]);
+    const [searchData, setSearchData] = useState("");
     const [formData, setFormData] = useState({});
     const [showFormUser, setShowFormUser] = useState(false);
     const [idFormUser, setIdFormUser] = useState(null);
     const [errorMessageEdit, setErrorMessageEdit] = useState("");
     const [errorMessageDelete, setErrorMessageDelete] = useState("");
-    const [searchData, setSearchData] = useState("");
 
     useEffect(() => {
         getUsers();
@@ -24,11 +24,20 @@ function TableUsers() {
             setResultUsers(users);
         } else {
             setResultUsers(
-                users.filter(({ username }) =>
-                    username
-                        .toLowerCase()
-                        .replace(/ /g, "")
-                        .includes(searchData.toLowerCase().replace(/ /g, ""))
+                users.filter(
+                    ({ username, email, role, status }) =>
+                        username
+                            .toLowerCase()
+                            .replace(/ /g, "")
+                            .includes(searchData.toLowerCase().replace(/ /g, "")) ||
+                        email
+                            .toLowerCase()
+                            .replace(/ /g, "")
+                            .includes(searchData.toLowerCase().replace(/ /g, "")) ||
+                        role.slice(0, searchData.toLowerCase().replace(/ /g, "").length) ===
+                            searchData.toLowerCase().replace(/ /g, "") ||
+                        status.slice(0, searchData.toLowerCase().replace(/ /g, "").length) ===
+                            searchData.toLowerCase().replace(/ /g, "")
                 )
             );
         }
@@ -37,6 +46,18 @@ function TableUsers() {
     useEffect(() => {
         setShowFormUser(false);
     }, [searchData]);
+
+    const handleChange = (e) =>
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+
+    const handleFormUser = (id) => {
+        setErrorMessageEdit("");
+        setShowFormUser(!showFormUser);
+        setIdFormUser(id);
+    };
 
     const getUsers = async () => {
         const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/users", {
@@ -81,15 +102,8 @@ function TableUsers() {
         if (data.error) {
             setErrorMessageDelete(data.error);
         } else {
-            await getUsers();
-            setShowFormUser(false);
+            getUsers();
         }
-    };
-
-    const handleFormUser = (id) => {
-        setErrorMessageEdit("");
-        setShowFormUser(!showFormUser);
-        setIdFormUser(id);
     };
 
     return (
@@ -111,41 +125,18 @@ function TableUsers() {
                             type="text"
                             name="username"
                             placeholder="Username"
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    username: e.target.value,
-                                })
-                            }
+                            onChange={handleChange}
                             className="form-control"
                         />
-                        <select
-                            name="role"
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    role: e.target.value,
-                                })
-                            }
-                            className="form-select"
-                        >
+                        <select name="role" onChange={handleChange} className="form-select">
                             <option value="">Role</option>
-                            <option value="ADMIN">ADMIN</option>
-                            <option value="USER">USER</option>
+                            <option value="admin">admin</option>
+                            <option value="user">user</option>
                         </select>
-                        <select
-                            name="status"
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    status: e.target.value,
-                                })
-                            }
-                            className="form-select"
-                        >
+                        <select name="status" onChange={handleChange} className="form-select">
                             <option value="">Status</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="INACTIVE">INACTIVE</option>
+                            <option value="active">active</option>
+                            <option value="inactive">inactive</option>
                         </select>
                     </form>
                 </Modal.Body>
@@ -208,7 +199,7 @@ function TableUsers() {
                             <td>
                                 <span
                                     className={
-                                        user.status === "INACTIVE"
+                                        user.status === "inactive"
                                             ? "badge rounded-pill text-bg-secondary"
                                             : "badge rounded-pill text-bg-success"
                                     }
@@ -258,7 +249,7 @@ function TableUsers() {
                                                 <td>
                                                     <span
                                                         className={
-                                                            status === "INACTIVE"
+                                                            status === "inactive"
                                                                 ? "badge rounded-pill text-bg-secondary"
                                                                 : "badge rounded-pill text-bg-success"
                                                         }

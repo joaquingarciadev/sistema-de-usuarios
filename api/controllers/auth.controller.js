@@ -12,12 +12,11 @@ const login = async (req, res, next) => {
         return res.status(401).json({ error: "Username or password is incorrect" });
 
     const user = await User.findOne({ username });
-
-    if (!user || !(await bcrypt.compare(password, user.password)))
+    if (!user || !bcrypt.compare(password, user.password))
         return res.status(401).json({ error: "Username or password is incorrect" });
 
     try {
-        await User.findByIdAndUpdate(user.id, { status: "ACTIVE" });
+        await User.findByIdAndUpdate(user.id, { status: "active" });
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
@@ -63,9 +62,9 @@ const signup = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
     try {
-        await User.findByIdAndUpdate(req.user.id, { status: "INACTIVE" });
+        await User.findByIdAndUpdate(req.user.id, { status: "inactive" });
 
-        req.logout();
+        await req.logout();
 
         res.json({ message: "Logout successful" });
     } catch (err) {
@@ -75,8 +74,9 @@ const logout = async (req, res, next) => {
 
 const oauth = async (req, res, next) => {
     try {
+        // req.user → cookie
         const user = await User.findOne({ username: req.user.username });
-        await User.findByIdAndUpdate(user.id, { status: "ACTIVE" });
+        await User.findByIdAndUpdate(user.id, { status: "active" });
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
@@ -107,7 +107,7 @@ const onetap = async (req, res, next) => {
 
         const user = await User.findOne({ google: id });
         if (user) {
-            await User.findByIdAndUpdate(user.id, { status: "ACTIVE" });
+            await User.findByIdAndUpdate(user.id, { status: "active" });
             const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             });
@@ -123,7 +123,7 @@ const onetap = async (req, res, next) => {
 
         const userSameEmail = await User.findOne({ email });
         if (userSameEmail) {
-            await User.findByIdAndUpdate(userSameEmail.id, { status: "ACTIVE", google: id });
+            await User.findByIdAndUpdate(userSameEmail.id, { status: "active", google: id });
             const token = jwt.sign({ id: userSameEmail.id }, process.env.JWT_KEY, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             });
@@ -138,11 +138,11 @@ const onetap = async (req, res, next) => {
         }
 
         const newUser = await User.create({
-            username: username + "-" + uuidv4(),
+            username: username + "-" + uuidv4().slice(0, 5),
             email,
             imageOauth,
             google: id,
-            status: "ACTIVE",
+            status: "active",
         });
         const token = jwt.sign({ id: newUser.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,

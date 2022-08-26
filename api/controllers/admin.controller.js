@@ -17,7 +17,6 @@ const getUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     const { username, email, password, role, status, image } = req.body;
-    let passwordHash;
 
     // This user can't be updated
     const user = await User.findById(req.params.id);
@@ -40,13 +39,13 @@ const updateUser = async (req, res, next) => {
     try {
         if (password) {
             const salt = await bcrypt.genSalt(10);
-            passwordHash = await bcrypt.hash(password, salt);
+            password = await bcrypt.hash(password, salt);
         }
 
         const user = await User.findByIdAndUpdate(req.params.id, {
             username,
             email,
-            password: passwordHash,
+            password,
             status,
             role,
             image,
@@ -84,7 +83,7 @@ const deleteUser = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete image
-        if (user.image) fs.unlinkSync("." + req.user.image);
+        if (user.image) fs.unlinkSync("." + user.image);
 
         res.json({
             message: "User deleted",
@@ -108,7 +107,7 @@ const deleteUsers = async (req, res) => {
     // Example: const ids = ["62be633aa3b0d9514645bf54", "62be633aa3b0d9514645bf53"];
     try {
         const users = !ids
-            ? await User.deleteMany({ role: "USER" }) // Delete all users
+            ? await User.deleteMany({ role: "user" }) // Delete all users
             : await User.deleteMany({ _id: { $in: ids } }); // Delete users with ids in ids array
         res.json({
             message: "Users deleted",

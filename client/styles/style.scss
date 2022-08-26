@@ -5,6 +5,7 @@
 
 $primary: #4f46e5; // Your primary color
 $input-transition: all 0s ease;
+$input-focus-border-color: #111;
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
@@ -45,6 +46,7 @@ td {
 }
 
 .form-control:focus, .form-select:focus {
-  border: 1px solid #000 !important;
-  outline: 1px solid #000 !important;
+  border-width: 2px !important;
+  outline: none !important;
+  margin: -1px !important;
 }

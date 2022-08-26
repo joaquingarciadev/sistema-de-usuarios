@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
     useEffect(() => {
         const getUser = async () => {
             setLoading(true);
-            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/me", {
+            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/account", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -84,7 +84,7 @@ function MyApp({ Component, pageProps }) {
     }, []);
 
     useEffect(() => {
-        if (user && user.status === "INACTIVE") {
+        if (user && user.status === "inactive") {
             localStorage.removeItem("token");
             localStorage.removeItem("refreshToken");
             setUser(null);

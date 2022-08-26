@@ -7,12 +7,13 @@ let userSchema = new mongoose.Schema(
         password: String,
         status: {
             type: String,
-            default: "INACTIVE",
+            enum: ["active", "inactive"],
+            default: "inactive",
         },
         role: {
             type: String,
-            enum: ["USER", "ADMIN"],
-            default: "USER",
+            enum: ["user", "admin"],
+            default: "user",
         },
         image: String,
         imageOauth: String,

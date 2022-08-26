@@ -30,7 +30,7 @@ passport.use(
                 }
 
                 const newUser = await User.create({
-                    username: displayName + "-" + uuidv4(),
+                    username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
                     imageOauth,
                     google: id,
@@ -68,7 +68,7 @@ passport.use(
                 }
 
                 const newUser = await User.create({
-                    username: displayName + "-" + uuidv4(),
+                    username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
                     imageOauth,
                     facebook: id,
@@ -106,7 +106,7 @@ passport.use(
                 }
 
                 const newUser = await User.create({
-                    username: displayName + "-" + uuidv4(),
+                    username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
                     imageOauth,
                     github: id,

@@ -14,13 +14,13 @@ export default function Users() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container-md">
+                <div className="container-md pt-3">
                     {loading ? (
                         <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
                             <div className="spinner-border" role="status"></div>
                         </div>
                     ) : user ? (
-                        <>{user.role === "ADMIN" && <TableUsers />}</>
+                        <>{user.role === "admin" && <TableUsers />}</>
                     ) : (
                         <h1>You are not logged in</h1>
                     )}

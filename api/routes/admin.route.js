@@ -8,16 +8,16 @@ const {
     deleteUsers,
 } = require("../controllers/admin.controller");
 // Import middlewares
-const { verifyToken, isAdmin } = require("../middlewares/auth.middleware");
+const { verifyToken, checkRole } = require("../middlewares/auth.middleware");
 
 router
     .route("/users")
-    .get(verifyToken, isAdmin, getUsers)
-    .delete(verifyToken, isAdmin, deleteUsers);
+    .get(verifyToken, checkRole(["admin"]), getUsers)
+    .delete(verifyToken, checkRole(["admin"]), deleteUsers);
 router
     .route("/user/:id")
-    .get(verifyToken, isAdmin, getUser)
-    .put(verifyToken, isAdmin, updateUser)
-    .delete(verifyToken, isAdmin, deleteUser);
+    .get(verifyToken, checkRole(["admin"]), getUser)
+    .put(verifyToken, checkRole(["admin"]), updateUser)
+    .delete(verifyToken, checkRole(["admin"]), deleteUser);
 
 module.exports = router;

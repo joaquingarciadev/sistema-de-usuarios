@@ -10,7 +10,7 @@ export default function Forgot() {
             </Head>
             <main>
                 <Navbar />
-                <div className="container-md">
+                <div className="container-md pt-3">
                     <h1>Forgot</h1>
                     <form>
                         <div className="form-group">
