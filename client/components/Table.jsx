@@ -154,12 +154,30 @@ function TableUsers() {
             )}
 
             <form className="mb-3">
-                <input
-                    type={"text"}
-                    placeholder={"Search users..."}
-                    onChange={(e) => setSearchData(e.target.value)}
-                    className="form-control"
-                />
+                <div className="position-relative">
+                    <div
+                        className="position-absolute"
+                        style={{
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            left: "16px",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                        }}
+                    >
+                        <i className="bi bi-search text-muted"></i>
+                    </div>
+                    <input
+                        type={"text"}
+                        name={"search"}
+                        placeholder={"Search"}
+                        onChange={(e) => setSearchData(e.target.value)}
+                        className="form-control"
+                        style={{
+                            paddingLeft: "48px",
+                        }}
+                    />
+                </div>
             </form>
 
             <div className="table-responsive">
@@ -259,19 +277,18 @@ function TableUsers() {
                                                 </td>
                                                 <td>{createdAt.replace("T", " ").slice(0, -8)}</td>
                                                 <td>{updatedAt.replace("T", " ").slice(0, -8)}</td>
-                                                <td className="d-flex gap-3">
-                                                    <button
-                                                        onClick={() => handleFormUser(_id)}
-                                                        className="btn btn-warning"
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button
+                                                <td>
+                                                    <a href="#" onClick={() => handleFormUser(_id)}>
+                                                        <i className="bi bi-pencil-square text-dark"></i>
+                                                    </a>
+                                                    &ensp;
+                                                    &ensp;
+                                                    <a
+                                                        href="#"
                                                         onClick={() => handleDeleteUser(_id)}
-                                                        className="btn btn-danger"
                                                     >
-                                                        Delete
-                                                    </button>
+                                                        <i className="bi bi-trash3 text-dark"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         );

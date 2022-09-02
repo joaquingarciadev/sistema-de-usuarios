@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import Navbar from "../components/Navbar";
 
 export default function Signup() {
     const [formData, setFormData] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleChange = (e) =>
         setFormData({
@@ -57,8 +57,10 @@ export default function Signup() {
         const data = await res.json();
         if (data.error) {
             setErrorMessage(data.error);
+            setSuccessMessage("");
         } else {
-            window.location.href = "/login";
+            setSuccessMessage("Please verify your email address");
+            setErrorMessage("");
         }
     };
 
@@ -80,10 +82,9 @@ export default function Signup() {
     return (
         <>
             <Head>
-                <title>Sign up</title>
+                <title>Sistema de usuarios</title>
             </Head>
             <main>
-                <Navbar />
                 <div className="container-md pt-3">
                     <div className="col-md-4 offset-md-4">
                         <h1 className="text-center">Sign up</h1>
@@ -92,7 +93,12 @@ export default function Signup() {
                                 {errorMessage}
                             </div>
                         )}
-                        <form onSubmit={handleSubmit} className="d-grid gap-3">
+                        {successMessage && (
+                            <div className="alert alert-success" role="alert">
+                                {successMessage}
+                            </div>
+                        )}
+                        <form className="d-grid gap-3" onSubmit={handleSubmit}>
                             <div>
                                 <input
                                     type="text"

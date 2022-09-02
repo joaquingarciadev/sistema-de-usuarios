@@ -21,6 +21,8 @@ let userSchema = new mongoose.Schema(
         google: String,
         facebook: String,
         github: String,
+
+        emailVerified: Boolean,
     },
     { timestamps: true }
 );

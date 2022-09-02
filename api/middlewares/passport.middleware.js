@@ -34,6 +34,7 @@ passport.use(
                     email,
                     imageOauth,
                     google: id,
+                    emailVerified: true,
                 });
                 return done(null, newUser);
             } catch (error) {
@@ -72,6 +73,7 @@ passport.use(
                     email,
                     imageOauth,
                     facebook: id,
+                    emailVerified: true,
                 });
                 return done(null, newUser);
             } catch (error) {
@@ -110,6 +112,7 @@ passport.use(
                     email,
                     imageOauth,
                     github: id,
+                    emailVerified: true,
                 });
                 return done(null, newUser);
             } catch (error) {

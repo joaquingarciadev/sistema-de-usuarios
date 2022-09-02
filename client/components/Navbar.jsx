@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Link from "next/link";
+// import Dropdown from "../components/Dropdown";
 
 function Navbar() {
     const { user } = useContext(AppContext);
@@ -65,7 +66,7 @@ function Navbar() {
                                 <Link href="/">
                                     <a className="dropdown-item">Profile</a>
                                 </Link>
-                                <Link href="/settings">
+                                <Link href="/account">
                                     <a className="dropdown-item">Settings</a>
                                 </Link>
                                 {user.role === "admin" && (

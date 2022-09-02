@@ -12,19 +12,19 @@ $input-focus-border-color: #111;
 @import "bootstrap/scss/utilities";
 
 $theme-colors: (
-  "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark,
-  "red":    $red-500,
-  "blue":   $blue-500,
-);    
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "red": $red-500,
+    "blue": $blue-500,
+);
 
-@import '~bootstrap/scss/bootstrap.scss';
+@import "~bootstrap/scss/bootstrap.scss";
 
 .table {
     width: 100% !important;
@@ -34,19 +34,33 @@ td {
     vertical-align: middle !important;
 }
 
+.form-control,
+.form-select,
+.btn {
+    padding: 10px 16px !important;
+}
+
+input[name="search"] {
+    padding-left: 48px !important;
+}
+
 .btn {
     border-width: 2px;
     font-weight: 500;
 }
 
-.form-control, .form-select, .btn:hover, .btn:focus {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
+.form-control,
+.form-select,
+.btn:hover,
+.btn:focus {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
-.form-control:focus, .form-select:focus {
-  border-width: 2px !important;
-  outline: none !important;
-  margin: -1px !important;
+.form-control:focus,
+.form-select:focus {
+    border-width: 2px !important;
+    outline: none !important;
+    margin: -1px !important;
 }

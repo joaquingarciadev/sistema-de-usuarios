@@ -94,7 +94,7 @@ export default function Settings() {
     return (
         <>
             <Head>
-                <title>Settings</title>
+                <title>Sistema de usuarios</title>
             </Head>
             <main>
                 <Navbar />
@@ -217,9 +217,11 @@ export default function Settings() {
                                         </div>
                                     )}
                                 </div>
-                                <button type="submit" className="btn btn-warning">
-                                    Update
-                                </button>
+                                <div>
+                                    <button type="submit" className="btn btn-warning">
+                                        Update
+                                    </button>
+                                </div>
                             </form>
                             <h2>Delete</h2>
                             <button onClick={handleShow} className="btn btn-danger mb-2">

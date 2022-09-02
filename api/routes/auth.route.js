@@ -1,15 +1,28 @@
 const router = require("express").Router();
 const passport = require("passport");
 // Import controllers
-const { login, signup, logout, oauth, onetap } = require("../controllers/auth.controller");
+const {
+    login,
+    signup,
+    logout,
+    verifyEmail,
+    forgotPassword,
+    verifyResetToken,
+    resetPassword,
+    oauth,
+    onetap,
+} = require("../controllers/auth.controller");
 // Import middlewares
 const { verifyToken, refreshToken } = require("../middlewares/auth.middleware");
 
 router.post("/login", login);
 router.post("/signup", signup);
 router.post("/logout", verifyToken, logout);
-// router.post("/forgot-password", forgotPassword);
 router.post("/refresh-token", refreshToken);
+router.get("/verify/:token", verifyEmail);
+router.post("/forgot-password", forgotPassword);
+router.get("/reset/:token", verifyResetToken);
+router.post("/reset/:token", resetPassword);
 
 // OAuth routes.
 router.get("/auth/success", oauth);

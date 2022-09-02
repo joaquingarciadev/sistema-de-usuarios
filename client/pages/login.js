@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../contexts/AppContext";
 import Link from "next/link";
 import Head from "next/head";
-import Navbar from "../components/Navbar";
 
 export default function Login() {
     const { user } = useContext(AppContext);
@@ -74,10 +73,9 @@ export default function Login() {
     return (
         <>
             <Head>
-                <title>Log in</title>
+                <title>Sistema de usuarios</title>
             </Head>
             <main>
-                <Navbar />
                 <div className="container-md pt-3">
                     {user ? (
                         <h1>You are logged</h1>
@@ -89,7 +87,7 @@ export default function Login() {
                                     {errorMessage}
                                 </div>
                             )}
-                            <form onSubmit={handleSubmit} className="d-grid gap-3">
+                            <form className="d-grid gap-3" onSubmit={handleSubmit} >
                                 <input
                                     type="text"
                                     name="username"
@@ -111,8 +109,9 @@ export default function Login() {
                                         className="position-absolute"
                                         style={{
                                             top: "50%",
-                                            right: "10px",
                                             transform: "translateY(-50%)",
+                                            right: "16px",
+                                            fontSize: "16px",
                                             cursor: "pointer",
                                         }}
                                     >
@@ -143,7 +142,7 @@ export default function Login() {
                                         </label>
                                     </div>
                                     <div>
-                                        <Link href="#" /* href="/forgot" */>
+                                        <Link href="/forgot-password">
                                             <a>Forgot password?</a>
                                         </Link>
                                     </div>

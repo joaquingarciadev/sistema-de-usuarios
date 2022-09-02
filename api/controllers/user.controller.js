@@ -38,15 +38,13 @@ const updateAccount = async (req, res, next) => {
     }
 
     try {
-        if (password) {
-            const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
-        }
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
 
         const user = await User.findByIdAndUpdate(req.user.id, {
             username,
             email,
-            password,
+            password: passwordHash,
             image,
         });
 
