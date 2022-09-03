@@ -15,7 +15,7 @@ function TableUsers() {
 
     useEffect(() => {
         getUsers();
-        const interval = setInterval(getUsers, 5000);
+        const interval = setInterval(getUsers, 10000);
         return () => clearInterval(interval);
     }, []);
 
