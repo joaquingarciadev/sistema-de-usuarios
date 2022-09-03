@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router
-    .route("/user/account")
+    .route("/account")
     .get(verifyToken, getAccount)
     .put(verifyToken, upload.single("image"), updateAccount)
     .delete(verifyToken, deleteAccount);

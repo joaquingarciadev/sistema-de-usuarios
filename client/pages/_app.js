@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
     useEffect(() => {
         const getUser = async () => {
             setLoading(true);
-            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/account", {
+            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/account", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

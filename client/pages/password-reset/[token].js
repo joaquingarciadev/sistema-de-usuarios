@@ -58,44 +58,46 @@ export default function PasswordReset({ data, token }) {
 
     return (
         <>
-            <div className="container-md pt-3">
-                <h1>Reset password</h1>
-                {!data ? (
-                    <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
-                        <div className="spinner-border" role="status"></div>
-                    </div>
-                ) : (
-                    <>
-                        {data.error ? (
-                            <div className={"alert alert-danger"} role="alert">
-                                {data.error}
-                            </div>
-                        ) : (
-                            <>
-                                {errorMessage && (
-                                    <div className="alert alert-danger" role="alert">
-                                        {errorMessage}
-                                    </div>
-                                )}
-                                {successMessage && (
-                                    <div className="alert alert-success" role="alert">
-                                        {successMessage}
-                                    </div>
-                                )}
-                                <form className="d-grid gap-3" onSubmit={handleSubmit}>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        className="form-control"
-                                        placeholder="Enter your new password"
-                                        onChange={handleChange}
-                                    />
-                                    <button className="btn btn-primary">Submit</button>
-                                </form>
-                            </>
-                        )}
-                    </>
-                )}
+            <div className="container-md pt-5">
+                <div className="col-md-6 offset-md-3">
+                    <h1>Reset password</h1>
+                    {!data ? (
+                        <div className="fixed-top vh-100 d-flex justify-content-center align-items-center">
+                            <div className="spinner-border" role="status"></div>
+                        </div>
+                    ) : (
+                        <>
+                            {data.error ? (
+                                <div className={"alert alert-danger"} role="alert">
+                                    {data.error}
+                                </div>
+                            ) : (
+                                <>
+                                    {errorMessage && (
+                                        <div className="alert alert-danger" role="alert">
+                                            {errorMessage}
+                                        </div>
+                                    )}
+                                    {successMessage && (
+                                        <div className="alert alert-success" role="alert">
+                                            {successMessage}
+                                        </div>
+                                    )}
+                                    <form className="d-grid gap-3" onSubmit={handleSubmit}>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="form-control"
+                                            placeholder="Enter your new password"
+                                            onChange={handleChange}
+                                        />
+                                        <button className="btn btn-primary">Submit</button>
+                                    </form>
+                                </>
+                            )}
+                        </>
+                    )}
+                </div>
             </div>
         </>
     );

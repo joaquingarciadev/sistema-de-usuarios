@@ -60,7 +60,7 @@ function TableUsers() {
     };
 
     const getUsers = async () => {
-        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/users", {
+        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/users/all", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -73,7 +73,7 @@ function TableUsers() {
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
-        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + `/api/user/${idFormUser}`, {
+        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + `/api/users/${idFormUser}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -91,7 +91,7 @@ function TableUsers() {
     };
 
     const handleDeleteUser = async (id) => {
-        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + `/api/user/${id}`, {
+        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + `/api/users/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -281,8 +281,7 @@ function TableUsers() {
                                                     <a href="#" onClick={() => handleFormUser(_id)}>
                                                         <i className="bi bi-pencil-square text-dark"></i>
                                                     </a>
-                                                    &ensp;
-                                                    &ensp;
+                                                    &ensp; &ensp;
                                                     <a
                                                         href="#"
                                                         onClick={() => handleDeleteUser(_id)}

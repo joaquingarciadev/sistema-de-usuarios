@@ -76,18 +76,45 @@ export default function Login() {
                 <title>Sistema de usuarios</title>
             </Head>
             <main>
-                <div className="container-md pt-3">
+                <div className="container-md pt-5">
                     {user ? (
                         <h1>You are logged</h1>
                     ) : (
-                        <div className="col-md-4 offset-md-4">
-                            <h1 className="text-center">Log in</h1>
+                        <div className="col-md-6 offset-md-3">
+                            <h1>Log in</h1>
+                            <div
+                                className="alert alert-success alert-dismissible fade show"
+                                role="alert"
+                            >
+                                <div>
+                                    <strong>Example</strong>
+                                    <br />
+                                    Username: admin
+                                    <br />
+                                    Password: admin
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
                             {errorMessage && (
-                                <div className="alert alert-danger" role="alert">
+                                <div
+                                    className="alert alert-danger alert-dismissible fade show"
+                                    role="alert"
+                                >
                                     {errorMessage}
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"
+                                    ></button>
                                 </div>
                             )}
-                            <form className="d-grid gap-3" onSubmit={handleSubmit} >
+                            <form className="d-grid gap-3" onSubmit={handleSubmit}>
                                 <input
                                     type="text"
                                     name="username"
@@ -178,14 +205,8 @@ export default function Login() {
                                 <button className="btn btn-dark" onClick={github}>
                                     <i className="bi bi-github"></i>&emsp;Log in with Github
                                 </button>
-                                <div className="alert alert-success" role="alert">
-                                    <strong>Example</strong>
-                                    <br />
-                                    Username: admin
-                                    <br />
-                                    Password: admin
-                                </div>
                             </form>
+                            <br />
                         </div>
                     )}
                 </div>

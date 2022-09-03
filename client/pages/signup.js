@@ -85,17 +85,35 @@ export default function Signup() {
                 <title>Sistema de usuarios</title>
             </Head>
             <main>
-                <div className="container-md pt-3">
-                    <div className="col-md-4 offset-md-4">
-                        <h1 className="text-center">Sign up</h1>
+                <div className="container-md pt-5">
+                    <div className="col-md-6 offset-md-3">
+                        <h1>Sign up</h1>
                         {errorMessage && (
-                            <div className="alert alert-danger" role="alert">
+                            <div
+                                className="alert alert-danger alert-dismissible fade show"
+                                role="alert"
+                            >
                                 {errorMessage}
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
                             </div>
                         )}
                         {successMessage && (
-                            <div className="alert alert-success" role="alert">
+                            <div
+                                className="alert alert-success alert-dismissible fade show"
+                                role="alert"
+                            >
                                 {successMessage}
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
                             </div>
                         )}
                         <form className="d-grid gap-3" onSubmit={handleSubmit}>

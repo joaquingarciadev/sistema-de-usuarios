@@ -22,7 +22,9 @@ let userSchema = new mongoose.Schema(
         facebook: String,
         github: String,
 
-        emailVerified: Boolean,
+        emailVerified: { type: Boolean, default: false },
+        emailVerificationToken: String,
+        passwordResetToken: String,
     },
     { timestamps: true }
 );

@@ -60,7 +60,7 @@ export default function Settings() {
             newFormData.append(key, formData[key]);
         }
 
-        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/account", {
+        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/account", {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -76,7 +76,7 @@ export default function Settings() {
     };
 
     const handleDeleteUser = async () => {
-        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/user/account", {
+        const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/account", {
             method: "DELETE",
             credentials: "include",
             headers: {
