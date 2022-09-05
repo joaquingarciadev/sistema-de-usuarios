@@ -20,8 +20,9 @@ router
     .put(verifyToken, checkRole(["admin"]), updateUser)
     .delete(verifyToken, checkRole(["admin"]), deleteUser);
 
-// router.get("/users/pages/:page");
-// router.get("/users/search/:search");
-// router.get("/users/filter/:filter");
+// router.get("/users/pages/:page/limit/:limit");
+// router.get("/users/pages/:page/limit/:limit/search/:search");
+// router.get("/users/pages/:page/limit/:limit/filter/:filter");
+// router.get("/users/pages/:page/limit/:limit/filter/:filter/search/:search");
 
 module.exports = router;
