@@ -16,7 +16,7 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const { id, displayName, photos, emails } = profile;
-                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const image = photos && photos.length ? photos[0].value : null;
                 const email = emails && emails.length ? emails[0].value : "";
 
                 const user = await User.findOne({ google: id });
@@ -32,7 +32,7 @@ passport.use(
                 const newUser = await User.create({
                     username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
-                    imageOauth,
+                    image,
                     google: id,
                     emailVerified: true,
                 });
@@ -55,7 +55,7 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const { id, displayName, photos, emails } = profile;
-                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const image = photos && photos.length ? photos[0].value : null;
                 const email = emails && emails.length ? emails[0].value : "";
 
                 const user = await User.findOne({ facebook: id });
@@ -71,7 +71,7 @@ passport.use(
                 const newUser = await User.create({
                     username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
-                    imageOauth,
+                    image,
                     facebook: id,
                     emailVerified: true,
                 });
@@ -94,7 +94,7 @@ passport.use(
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const { id, displayName, photos, emails } = profile;
-                const imageOauth = photos && photos.length ? photos[0].value : null;
+                const image = photos && photos.length ? photos[0].value : null;
                 const email = emails && emails.length ? emails[0].value : "";
 
                 const user = await User.findOne({ github: id });
@@ -110,7 +110,7 @@ passport.use(
                 const newUser = await User.create({
                     username: displayName + "-" + uuidv4().slice(0, 5),
                     email,
-                    imageOauth,
+                    image,
                     github: id,
                     emailVerified: true,
                 });

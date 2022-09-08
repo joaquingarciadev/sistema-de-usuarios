@@ -230,7 +230,7 @@ const onetap = async (req, res, next) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { sub: id, name: username, email, picture: imageOauth } = payload;
+        const { sub: id, name: username, email, picture: image } = payload;
 
         const user = await User.findOne({ google: id });
         if (user) {
@@ -267,7 +267,7 @@ const onetap = async (req, res, next) => {
         const newUser = await User.create({
             username: username + "-" + uuidv4().slice(0, 5),
             email,
-            imageOauth,
+            image,
             google: id,
             status: "active",
             emailVerified: true,

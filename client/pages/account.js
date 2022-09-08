@@ -119,10 +119,6 @@ export default function Settings() {
                                                 formData.image
                                                     ? URL.createObjectURL(formData.image)
                                                     : user.image
-                                                    ? process.env.NEXT_PUBLIC_URL_API + user.image
-                                                    : user.imageOauth
-                                                    ? user.imageOauth
-                                                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                                             }
                                             alt={user.username}
                                             className="rounded-circle"

@@ -83,7 +83,11 @@ const deleteUser = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete image
-        if (user.image) fs.unlinkSync("." + user.image);
+        if (user.image && user.image.includes(process.env.URL_API)) {
+            let image = user.image;
+            let imagePath = image.replace(process.env.URL_API, ".");
+            fs.unlinkSync(imagePath);
+        }
 
         res.json({
             message: "User deleted",

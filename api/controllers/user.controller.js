@@ -17,23 +17,24 @@ const getAccount = async (req, res, next) => {
 
 const updateAccount = async (req, res, next) => {
     const { username, email, password } = req.body;
-    let image = req.file && "/" + req.file.path.replace(/\\/g, "/");
+    let image = req.file && process.env.URL_API + "/" + req.file.path.replace(/\\/g, "/");
+    let imagePath = image.replace(process.env.URL_API, ".");
 
     const user = await User.findById(req.user.id);
 
     // This user can't be updated
     if (user.username === "admin") {
-        if (image) fs.unlinkSync("." + image);
+        if (image) fs.unlinkSync(imagePath);
         return res.status(400).json({ error: "Admin user can't be updated" });
     }
 
     if (await User.findOne({ $or: [{ username }, { email }] })) {
-        if (image) fs.unlinkSync("." + image);
+        if (image) fs.unlinkSync(imagePath);
         return res.status(400).json({ error: "This user already exists" });
     }
 
     if (password && !bcrypt.compare(password, user.password)) {
-        if (image) fs.unlinkSync("." + image);
+        if (image) fs.unlinkSync(imagePath);
         return res.status(400).json({ error: "New password cannot be the same as old" });
     }
 
@@ -51,7 +52,11 @@ const updateAccount = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete old image
-        if (image && user.image && image !== user.image) fs.unlinkSync("." + user.image);
+        if (image && user.image && user.image.includes(process.env.URL_API)) {
+            let oldImage = user.image;
+            let oldImagePath = oldImage.replace(process.env.URL_API, ".");
+            if (imagePath !== oldImagePath) fs.unlinkSync(oldImagePath);
+        }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
@@ -84,7 +89,11 @@ const deleteAccount = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Delete image
-        if (user.image) fs.unlinkSync("." + user.image);
+        if (user.image && user.image.includes(process.env.URL_API)) {
+            let image = user.image;
+            let imagePath = image.replace(process.env.URL_API, ".");
+            fs.unlinkSync(imagePath);
+        }
 
         req.logout();
 

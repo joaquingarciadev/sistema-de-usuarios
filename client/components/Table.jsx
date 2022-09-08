@@ -128,6 +128,13 @@ function TableUsers() {
                             onChange={handleChange}
                             className="form-control"
                         />
+                        <input
+                            type="text"
+                            name="email"
+                            placeholder="Email"
+                            onChange={handleChange}
+                            className="form-control"
+                        />
                         <select name="role" onChange={handleChange} className="form-select">
                             <option value="">Role</option>
                             <option value="admin">admin</option>
@@ -197,13 +204,7 @@ function TableUsers() {
                         <tr className="table-secondary">
                             <td>
                                 <img
-                                    src={
-                                        user.image
-                                            ? process.env.NEXT_PUBLIC_URL_API + user.image
-                                            : user.imageOauth
-                                            ? user.imageOauth
-                                            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                    }
+                                    src={user.image}
                                     alt={user.username}
                                     className="rounded-circle"
                                     style={{ objectFit: "cover" }}
@@ -234,7 +235,6 @@ function TableUsers() {
                                 ({
                                     _id,
                                     image,
-                                    imageOauth,
                                     username,
                                     email,
                                     role,
@@ -247,14 +247,7 @@ function TableUsers() {
                                             <tr key={_id}>
                                                 <td>
                                                     <img
-                                                        src={
-                                                            image
-                                                                ? process.env.NEXT_PUBLIC_URL_API +
-                                                                  image
-                                                                : imageOauth
-                                                                ? imageOauth
-                                                                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                                                        }
+                                                        src={image}
                                                         alt={username}
                                                         className="rounded-circle"
                                                         width="40"
