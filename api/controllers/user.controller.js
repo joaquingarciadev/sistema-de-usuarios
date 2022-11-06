@@ -17,8 +17,13 @@ const getAccount = async (req, res, next) => {
 
 const updateAccount = async (req, res, next) => {
     const { username, email, password } = req.body;
-    let image = req.file && process.env.URL_API + "/" + req.file.path.replace(/\\/g, "/");
-    let imagePath = image.replace(process.env.URL_API, ".");
+    let image, imagePath;
+    if (req.file) {
+        image =
+            req.file &&
+            process.env.URL_API + "/" + req.file.path.replace(/\\/g, "/");
+        imagePath = image.replace(process.env.URL_API, ".");
+    }
 
     const user = await User.findById(req.user.id);
 
@@ -33,14 +38,23 @@ const updateAccount = async (req, res, next) => {
         return res.status(400).json({ error: "This user already exists" });
     }
 
-    if (password && !bcrypt.compare(password, user.password)) {
+    if (
+        password &&
+        user.password &&
+        !(await bcrypt.compare(password, user.password))
+    ) {
         if (image) fs.unlinkSync(imagePath);
-        return res.status(400).json({ error: "New password cannot be the same as old" });
+        return res
+            .status(400)
+            .json({ error: "New password cannot be the same as old" });
     }
 
     try {
-        const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(password, salt);
+        let passwordHash;
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            passwordHash = await bcrypt.hash(password, salt);
+        }
 
         const user = await User.findByIdAndUpdate(req.user.id, {
             username,
@@ -62,9 +76,13 @@ const updateAccount = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
-            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-        });
+        const refreshToken = jwt.sign(
+            { id: user.id },
+            process.env.JWT_REFRESH_KEY,
+            {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            }
+        );
 
         res.json({
             user: user.hiddenFields(),

@@ -10,15 +10,26 @@ const login = async (req, res, next) => {
     const { username, password } = req.body;
 
     if (!username || !password)
-        return res.status(401).json({ error: "Username or password is incorrect" });
+        return res
+            .status(401)
+            .json({ error: "Username or password is incorrect" });
 
     const user = await User.findOne({ username });
-    if (!user || !bcrypt.compare(password, user.password))
-        return res.status(401).json({ error: "Username or password is incorrect" });
+    if (!user)
+        return res
+            .status(401)
+            .json({ error: "Username or password is incorrect" });
+
+    if (!(await bcrypt.compare(password, user.password)))
+        return res
+            .status(401)
+            .json({ error: "Username or password is incorrect" });
 
     // Make sure the user has been verified
     if (!user.emailVerified)
-        return res.status(401).json({ error: "Your account has not been verified." });
+        return res
+            .status(401)
+            .json({ error: "Your account has not been verified." });
 
     try {
         // Update status
@@ -28,9 +39,13 @@ const login = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
-            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-        });
+        const refreshToken = jwt.sign(
+            { id: user.id },
+            process.env.JWT_REFRESH_KEY,
+            {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            }
+        );
 
         res.json({
             user: user.hiddenFields(),
@@ -54,8 +69,11 @@ const signup = async (req, res, next) => {
         return res.status(400).json({ error: "This user already exists" });
 
     try {
-        const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(password, salt);
+        let passwordHash;
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            paspasswordHash = await bcrypt.hash(password, salt);
+        }
 
         // Email verification token
         const token = jwt.sign({ email }, process.env.JWT_KEY, {
@@ -109,7 +127,9 @@ const verifyEmail = async (req, res, next) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         if (user.emailVerified)
-            return res.status(200).json({ error: "Your account has already been verified" });
+            return res
+                .status(200)
+                .json({ error: "Your account has already been verified" });
         if (user.emailVerificationToken !== token)
             return res.status(400).json({ error: "Token not valid" });
 
@@ -209,9 +229,13 @@ const oauth = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
-        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
-            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-        });
+        const refreshToken = jwt.sign(
+            { id: user.id },
+            process.env.JWT_REFRESH_KEY,
+            {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            }
+        );
         res.json({
             user: user.hiddenFields(),
             token,
@@ -238,9 +262,13 @@ const onetap = async (req, res, next) => {
             const token = jwt.sign({ id: user.id }, process.env.JWT_KEY, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             });
-            const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_KEY, {
-                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-            });
+            const refreshToken = jwt.sign(
+                { id: user.id },
+                process.env.JWT_REFRESH_KEY,
+                {
+                    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+                }
+            );
             return res.json({
                 user: user.hiddenFields(),
                 token,
@@ -250,13 +278,24 @@ const onetap = async (req, res, next) => {
 
         const userSameEmail = await User.findOne({ email });
         if (userSameEmail) {
-            await User.findByIdAndUpdate(userSameEmail.id, { status: "active", google: id });
-            const token = jwt.sign({ id: userSameEmail.id }, process.env.JWT_KEY, {
-                expiresIn: process.env.JWT_EXPIRES_IN,
+            await User.findByIdAndUpdate(userSameEmail.id, {
+                status: "active",
+                google: id,
             });
-            const refreshToken = jwt.sign({ id: userSameEmail.id }, process.env.JWT_REFRESH_KEY, {
-                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-            });
+            const token = jwt.sign(
+                { id: userSameEmail.id },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: process.env.JWT_EXPIRES_IN,
+                }
+            );
+            const refreshToken = jwt.sign(
+                { id: userSameEmail.id },
+                process.env.JWT_REFRESH_KEY,
+                {
+                    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+                }
+            );
             return res.json({
                 user: user.hiddenFields(),
                 token,
@@ -275,9 +314,13 @@ const onetap = async (req, res, next) => {
         const token = jwt.sign({ id: newUser.id }, process.env.JWT_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
-        const refreshToken = jwt.sign({ id: newUser.id }, process.env.JWT_REFRESH_KEY, {
-            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
-        });
+        const refreshToken = jwt.sign(
+            { id: newUser.id },
+            process.env.JWT_REFRESH_KEY,
+            {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+            }
+        );
         res.json({
             user: newUser.hiddenFields(),
             token,
