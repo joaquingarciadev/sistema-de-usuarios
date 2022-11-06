@@ -10,9 +10,7 @@ function MyApp({ Component, pageProps }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        typeof document !== undefined
-            ? require("bootstrap/dist/js/bootstrap")
-            : null;
+        typeof document !== undefined ? require("bootstrap/dist/js/bootstrap") : null;
     }, []);
 
     // Google One Tap
@@ -50,49 +48,41 @@ function MyApp({ Component, pageProps }) {
     useEffect(() => {
         const getUser = async () => {
             setLoading(true);
-            const res = await fetch(
-                process.env.NEXT_PUBLIC_URL_API + "/api/account",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
+            const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/account", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
             if (res.status === 200) {
                 const data = await res.json();
                 setUser(data.user);
+                setLoading(false);
+                return;
             }
             // If token is invalid
             if (res.status === 401) {
-                const res = await fetch(
-                    process.env.NEXT_PUBLIC_URL_API + "/api/refresh-token",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${localStorage.getItem(
-                                "refreshToken"
-                            )}`,
-                        },
-                    }
-                );
+                const res = await fetch(process.env.NEXT_PUBLIC_URL_API + "/api/refresh-token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+                    },
+                });
                 if (res.status === 200) {
                     const data = await res.json();
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("refreshToken", data.refreshToken);
                     getUser();
+                    setLoading(false);
+                    return;
                 }
-            } 
-            // if token and refreshToken is invalid
-            else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("refreshToken");
-                window.location.reload();
             }
+            // if token and refreshToken is invalid
+            localStorage.removeItem("token");
+            localStorage.removeItem("refreshToken");
+            window.location.reload();
             setLoading(false);
         };
 
