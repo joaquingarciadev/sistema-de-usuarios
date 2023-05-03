@@ -5,9 +5,6 @@ App que contiene autenticación, autenticación oauth, registro, sesiones y gest
 Frontend: NextJS y Bootstrap.
 Backend: NodeJS, ExpressJS, MongoDB, JWT, Bcrypt, Passport, multer y fs.
 
-### Demo :computer:
-https://sistema-de-usuarios.vercel.app
-
 ### Instalación 🔧
 
 _1- Clonar el proyecto._
