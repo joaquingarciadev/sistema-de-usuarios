@@ -2,7 +2,7 @@
 App que contiene autenticación, autenticación oauth, registro, sesiones y gestión de usuarios.
 
 ## Tecnologías
-Frontend: NextJS y Bootstrap.
+Frontend: ReactJS, NextJS y Bootstrap.
 Backend: NodeJS, ExpressJS, MongoDB, JWT, Bcrypt, Passport, multer y fs.
 
 ### Instalación 🔧
@@ -37,4 +37,4 @@ npm run dev
 ```
 
 ### Preview :mag:
-![preview](https://djoako22.github.io/src/proyectos/sistema-de-usuarios.png)
+![preview](https://joaquingarciadev.github.io/src/proyectos/sistema-de-usuarios.png)
